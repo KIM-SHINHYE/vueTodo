@@ -15,8 +15,24 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      component: () => import('@/views/AboutView.vue')
+    },
+    {
+      path: '/todoregister',
+      name: 'todoregister',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/views/TodoRegisterView.vue')
+    },
+    {
+      path: '/todolist',
+      name: 'todolist',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('@/views/TodoListView.vue')
+    },
   ]
 })
 

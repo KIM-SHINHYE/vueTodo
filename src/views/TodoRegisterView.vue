@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '@/components/TheWelcome.vue'
+import InputTodo from '@/components/InputTodo.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <InputTodo />
   </main>
 </template>
