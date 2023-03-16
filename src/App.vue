@@ -15,6 +15,8 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/todoregister">todo-register</RouterLink>
         <RouterLink to="/todolist">todo-list</RouterLink>
+        <RouterLink to="/userregister">user-register</RouterLink>
+        <RouterLink to="/userlist">user-list</RouterLink>
         <!-- url은 전부 소문자로 써주기(to) -->
       </nav>
     </div>
