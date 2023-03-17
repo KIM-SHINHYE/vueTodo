@@ -1,9 +1,31 @@
 <script setup lang="ts">
 import { useStore } from '@/stores/todo'
+import { onMounted, ref, type Ref } from 'vue';
+import axios from 'axios';
+import {fetchData} from '@/api/index'
 
 const todoStore = useStore();
+let userList :Ref<any[]> = ref([]); // DOM 구축 후 넣어주는 것이므로 ref 선언
 
+// 1.
+// const test = async()=>{
+// userList.value =  await fetchData()
+// }
 
+// 2. 더 좋음
+const test =()=>{
+fetchData().then((res)=>{
+  userList.value =res
+  console.log(userList.value)
+}).catch((err)=>{
+  console.log(err)
+})
+}
+test()
+
+// onMounted(() => {
+//   let a = fetchData()
+// }) 
 </script>
 
 <template>
