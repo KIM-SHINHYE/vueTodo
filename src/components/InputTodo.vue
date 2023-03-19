@@ -7,6 +7,7 @@ import CommunityIcon from './icons/IconCommunity.vue'
 import { ref, type Ref } from 'vue'
 import { useStore } from '@/stores/todo'
 
+// 사용하기 전에 선언해줘야 함
 const todoStore = useStore();
 
 type Todo = {

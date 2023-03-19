@@ -8,15 +8,17 @@ import HelloWorld from './components/HelloWorld.vue'
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="Vue Practice" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <!--TODO: 원래는 /todo/register이런식으로 해주는게 정상, 나중에 depth하나 더 해서 router에 children에 등록해보기-->
         <RouterLink to="/todoregister">todo-register</RouterLink>
         <RouterLink to="/todolist">todo-list</RouterLink>
         <RouterLink to="/userregister">user-register</RouterLink>
         <RouterLink to="/userlist">user-list</RouterLink>
+        <RouterLink to="/directive">directive</RouterLink>
         <!-- url은 전부 소문자로 써주기(to) -->
       </nav>
     </div>

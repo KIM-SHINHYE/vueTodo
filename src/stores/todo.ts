@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+// pinia로 상태관리하기 위해 ts파일로 따로 만들어서 관리
 
 type Todo = {
     title: string;
