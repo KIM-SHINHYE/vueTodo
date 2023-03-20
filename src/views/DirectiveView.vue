@@ -12,7 +12,7 @@ import { ref } from 'vue';
 // })
 
 const parentPropData = ref([
-  'v-text', 'v-html', 'v-bind', 'v-show22'
+  'v-text', 'v-html', 'v-bind', 'v-show22', 'v-if', 'v-else-if', 'v-else', 'v-for', 'v-model', 'v-slot', 'v-pre', 'v-once', 'v-memo', 'v-cloak'
 ])
 
 </script>
@@ -22,7 +22,7 @@ const parentPropData = ref([
     <!-- <Directive msg1="a" msg2="b"/> -->
     <!-- 
       부모 컴포넌트에서 자식 컴포넌트로 데이터를 전달하기 위해서 v-bind사용해야 함,
-      자식 컴포넌트에 childPropData라는 이름으로 props전달
+      자식 컴포넌트에 childPropData라는 이름으로 props전달하고, 자식 컴포넌트에선 childPropData받아서 사용해야 함
     -->
     <Directive :childPropData="parentPropData"/>
 
