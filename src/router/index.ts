@@ -53,6 +53,11 @@ const router = createRouter({
       path: '/directive',
       name: 'directive',
       component: () => import('@/views/DirectiveView.vue')
+    },
+    {
+      path: '/lifecycle',
+      name: 'lifecycle',
+      component: () => import('@/views/LifecycleView.vue')
     }
   ]
 })

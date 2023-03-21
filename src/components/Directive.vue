@@ -19,6 +19,14 @@ const props = defineProps({
   }
 });
 
+// TODO: 각각의 컨텐츠들을 객체로 관리해서 v-for이용해서 html에 뿌려주기
+// ex) 아래처럼 객체로 만든 걸 html에서 뿌려주기, 근데 만약 subTitle이 없다면 v-if 등을 써줘서 값이 보여지고 안보여지게 해주되 초기값 세팅해주기
+// let vModel:Object = {
+//   title: 'v-model',
+//   subTitle: '양방향 바인딩을 만드는 디렉티브',
+//   attr: ['.lazy', '.number', 'trim']
+// } 
+
 const linkToMedium:string = "<a href='https://images.velog.io/images/taese0ng/post/82c7a9ee-7d30-44eb-be74-6814dd66b64c/logo-vuejs-min.png'>링크</a>"
 const vue:string = "https://images.velog.io/images/taese0ng/post/82c7a9ee-7d30-44eb-be74-6814dd66b64c/logo-vuejs-min.png"
 const descOfAttr:Object = {
@@ -45,6 +53,10 @@ let msg:string = 'v-once를 사용한 span태그';
 
 function clickStop() {
   alert('클릭되었습니다.')
+}
+
+const boxOfAttr:Object = {
+  style: 'color: yellow;'
 }
 
 </script>
@@ -77,6 +89,7 @@ function clickStop() {
     <div>
       <h2 class="green">2. {{ childPropData[1] }}</h2>
         <p :="descOfAttr"> HTML 코드를 직접적으로 입력해줄 떄 사용되는 디렉티브. 즉, 엘리먼트의 innerHTML을 업데이트 함</p>
+        <div :="boxOfAttr">단, 웹사이트에서 임의의 HTML을 동적으로 렌더링하는 것은 XSS공격으로 쉽게 이어질 수 있기 때문에 신뢰할 수 있는 컨텐츠에만 사용 권장</div>
         <br>
         1번처럼 텍스트 보간법을 이용하면 string으로 입력되는데, 2번처럼 v-html 디렉티브를 이용하면 HTML코드로서 인식, 단, 이 태그에 값을 입력하면 에러
         <p>1. {{ linkToMedium }}</p>
@@ -117,7 +130,7 @@ function clickStop() {
         <li>.middle: 마우스 중앙(휠 클릭) 버튼으로만 이벤트가 트리거 됨</li>
         <li>.passive: {passive: true} 옵션으로 DOM 이벤트 등록</li>
       </ul>
-      
+      <div :="boxOfAttr">v-show가 있는 엘리먼트는 항상 렌더링되어 DOM에 남아있지만, v-if를 사용한 엘리먼트는 디렉티브 표현식이 truthy 값을 반환하는 경우에만 렌더링</div>
     </div>
     <br>
 
@@ -144,11 +157,11 @@ function clickStop() {
       <h2 class="green">6. {{ childPropData[7] }}</h2>
       <p :="descOfAttr">소스 데이터를 기반으로 엘리먼트 또는 템플릿 블롯을 여러 번 렌더링하는 디렉티브, value, key, index순</p>
       <p>- 배열인 경우 value, key, index로 v-for를 돌리면 key에 index가 들어가게 됨</p>
-      <div v-for="(value, key, index) in childPropData" :key="key">value: {{ value }}, key: {{ key }}, index: {{ index }}
+      <div v-for="(value, key, index) in childPropData" :key="index">value: {{ value }}, key: {{ key }}, index: {{ index }}
       </div>
       <br>
       <p>- 객체인 경우 value, key, index로 하면 값이 전부 들어옴 </p>
-      <div v-for="(value, key, index) in users" :key="key">value: {{ value }}, key: {{ key }}, index:n{{ index }}</div>
+      <div v-for="(value, key, index) in users" :key="key">value: {{ value }}, key: {{ key }}, index:{{ index }}</div>
     </div>
     <br>
 
@@ -160,9 +173,8 @@ function clickStop() {
         <input type="text" v-model.lazy="modelLazy">입력값: {{ modelLazy }}
         <li>.number: 유효한 입력 문자열을 숫자로 변환하여 전달</li>
         <input type="text" v-model.number="modelNumber">입력값: {{ typeof modelNumber }}
-        <!-- TODO: .trim되는 기준?  -->
         <li>.trim: 사용자 입력의 공백을 트리밍 => 양쪽 끝의 공백만 제거</li>
-        <input type="text" v-model="modelTrim">입력값 길이: {{ modelTrim.length }}
+        <input type="text" v-model.trim="modelTrim">입력값 길이: {{ modelTrim.length }}
       </ul>
     </div>
     <br>
@@ -171,9 +183,9 @@ function clickStop() {
       <h2 class="green">8. {{ childPropData[9] }}</h2>
       <p :="descOfAttr">slot과 비슷하지만 slot보다 좀 더 간결하고 명확한 구문제공. 실질적인 템플릿 코드 조각을 통째로 보내서 화면에 보여줄 수 있는 기능. Named Slot과 Scoped Slot사용을 통합한 새로운 디랙티브</p>
       
-    <!-- 아래 코드를 template으로 감싸게 되면 elements에는 표시가 되나, 화면엔 렌더링 되지 않음. 바깥쪽 template은 렌더링할 요소가 없기 때문에 불필요한 template의 중첩으로 화면에 정상적으로 렌더링 되지않음 -->
+      <!-- 아래 코드를 template으로 감싸게 되면 elements에는 표시가 되나, 화면엔 렌더링 되지 않음. 바깥쪽 template은 렌더링할 요소가 없기 때문에 불필요한 template의 중첩으로 화면에 정상적으로 렌더링 되지않음 -->
       <div>
-        <p>부모 컴포넌트입니다</p>
+        <p>부모 컴포넌트입니다(v-slot: 사용)</p>
         <SlotChildComponent>
           <template v-slot:child-header>
             <h1>Header</h1>
@@ -188,6 +200,29 @@ function clickStop() {
             <button>오른쪽 버튼</button>
           </template>
           <template v-slot:child-footer>
+            <div>Footer</div>
+          </template>
+        </SlotChildComponent>
+      </div>
+
+      <br>
+
+      <div>
+        <p>부모 컴포넌트입니다(v-slot:대신 #사용)</p>
+        <SlotChildComponent>
+          <template #child-header>
+            <h1>Header</h1>
+          </template>
+          <template #default>
+            <div>Body</div>
+          </template>
+          <template #left-button>
+            <button>왼쪽 버튼</button>
+          </template>
+          <template #right-button>
+            <button>오른쪽 버튼</button>
+          </template>
+          <template #child-footer>
             <div>Footer</div>
           </template>
         </SlotChildComponent>
