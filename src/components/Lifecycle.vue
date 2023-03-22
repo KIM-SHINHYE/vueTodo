@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type LifecycleViewVue from '@/views/LifecycleView.vue';
+import LifecycleViewVue from '@/views/LifecycleView.vue';
 
 type Lifecycle = {
   optApi: string,

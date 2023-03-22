@@ -44,7 +44,7 @@ userData()
 </script>
 
 <template>
-  <h1>할 일 목록</h1>
+  <h1>사용자 목록</h1>
   <table>
     <thead>
       <tr>
