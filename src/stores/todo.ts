@@ -9,7 +9,8 @@ type Todo = {
     date: Date | null;
 }
 
-// userStore란 변수를 사용하기 때문에 다른 곳에서 사용할 때 useStore로 import 해야 함
+// useStore란 변수를 사용하기 때문에 다른 곳에서 사용할 때 useStore로 import 해야 함
+// 해당 상태에 대한 id정의해주기 -> todoContent
 export const useStore = defineStore('todoContent', () => {
     // state선언
     let todoList : Todo[] = [];

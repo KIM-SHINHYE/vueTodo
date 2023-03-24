@@ -21,6 +21,7 @@
 .details {
   flex: 1;
   margin-left: 1rem;
+  display: flex;
 }
 
 i {
@@ -38,6 +39,7 @@ h3 {
   font-weight: 500;
   margin-bottom: 0.4rem;
   color: var(--color-heading);
+  margin-right: 10px;
 }
 
 @media (min-width: 1024px) {

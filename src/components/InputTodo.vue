@@ -5,10 +5,8 @@ import ToolingIcon from './icons/IconTooling.vue'
 import EcosystemIcon from './icons/IconEcosystem.vue'
 import CommunityIcon from './icons/IconCommunity.vue'
 import { ref, type Ref } from 'vue'
-import { useStore } from '@/stores/todo'
+import Modal from './Modal.vue'
 
-// 사용하기 전에 선언해줘야 함
-const todoStore = useStore();
 
 type Todo = {
   title: string;
@@ -25,19 +23,6 @@ let todo: Ref<Todo> = ref({
   priority: 0,
   date: new Date()
 })
-
-const register = () => {
-  const date = new Date
-  // 이렇게 안해주면 주솟값이 바뀌기 때문에 한 번 더 세팅해주는 것 -  근데 이런 식으로 개발할 일은 잘 없음, 저장하는 곳을 DB로 바라볼 거기 때문
-  const request = {
-    title: todo.value.title,
-    content: todo.value.content,
-    name: todo.value.name,
-    priority: todo.value.priority,
-    date: date
-  }
-  todoStore.addTodo(request);
-}
 </script>
 
 <template>
@@ -46,26 +31,30 @@ const register = () => {
     <template #icon>
       <DocumentationIcon />
     </template>
-    <template #heading>제목</template>
-    <input type="text" v-model="todo.title">
+    <template #heading>제목:</template>
+    <div id="inputBox">
+      <input type="text" v-model="todo.title">
+    </div>
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
       <ToolingIcon />
     </template>
-    <template #heading>내용</template>
-    <textarea v-model="todo.content"></textarea>
-    
-
+    <template #heading>내용:</template>
+    <div id="inputBox">
+      <input type="text" v-model="todo.content"/>
+    </div>
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
       <EcosystemIcon />
     </template>
-    <template #heading>작성자</template>
-    <input type="text" v-model="todo.name">
+    <template #heading>작성자:</template>
+    <div id="inputBox">
+      <input type="text" v-model="todo.name">
+    </div>
 
   </WelcomeItem>
 
@@ -73,8 +62,15 @@ const register = () => {
     <template #icon>
       <CommunityIcon />
     </template>
-    <template #heading>우선순위</template>
+    <template #heading>우선순위:</template>
+    <div id="inputBox">
     <input type="number" v-model="todo.priority">
+    </div>
   </WelcomeItem>
-  <button @click="register()">등록</button>
+  <!-- <button class="openBtn" @click="register">등록</button> -->
+  <!-- todoData로 전달하기 때문에 자식 컴포넌트에선 todoData로 받아야 함 -->
+  <Modal :todoData="todo" />
 </template>
+
+<style scoped>
+</style>
