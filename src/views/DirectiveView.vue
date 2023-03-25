@@ -12,7 +12,7 @@ import { ref } from 'vue';
 // })
 
 const parentPropData = ref([
-  'v-text', 'v-html', 'v-bind', 'v-show22', 'v-if', 'v-else-if', 'v-else', 'v-for', 'v-model', 'v-slot', 'v-pre', 'v-once', 'v-memo', 'v-cloak'
+  'v-text', 'v-html', 'v-bind', 'v-show22', 'v-on', 'v-if', 'v-else-if', 'v-else', 'v-for', 'v-model', 'v-slot', 'v-pre', 'v-once', 'v-memo', 'v-cloak'
 ])
 
 </script>

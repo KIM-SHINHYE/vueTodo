@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import SlotChildComponent from './SlotChildComponent.vue';
+import vOnEvent from './vOnEvent.vue';
+
 import { defineProps, ref, type Ref } from 'vue';
 // props를 이용해서 childPropData에 바로 접근해도 되고, 바로 childPropData를 써서 접근해도 됨
 // const props = defineProps<{
@@ -52,18 +54,25 @@ let modelNumber:Ref<string> = ref('')
 let modelTrim:Ref<string> = ref('')
 let msg:string = 'v-once를 사용한 span태그';
 
-function clickStop() {
-  alert('클릭되었습니다.')
-}
-
 const boxOfAttr:Object = {
   style: 'color: yellow;'
 }
+
+function parentClickStop() {
+  alert('부모 컴포넌트 - 클릭되었습니다.');
+}
+
+// let inputLeft:Ref<string> = ref('');
+  const rightAlert = () => {
+    alert('오른쪽 클릭일때만 나타나는 alert창!')
+  }
+
 
 </script>
 
 <template>
   <div class="greetings">
+    <br>
     <!-- 둘 다 가능 -->
     <!-- <h1 class="green">{{ childPropData.directive1 }}</h1>
     <h1 class="green">{{ childPropData.directive2 }}</h1> -->
@@ -72,34 +81,37 @@ const boxOfAttr:Object = {
     <h1 class="green">{{ props.childPropData.directive2 }}</h1> -->
 
     <h1>디렉티브 종류</h1>
-    <a v-for="(data, idx) in childPropData" :key="idx" class="list" href="data">
+    <a v-for="(data, idx) in childPropData" :key="idx" class="list" :href="'#'+data">
       &nbsp; {{ data }} &nbsp;&nbsp;|
     </a>
+    <!-- TODO: br을 하나만 하면 왜 안먹히지? -->
+    <br>
     <br>
 
-    <div id="vText">
+
+    <div id="v-text">
 
       <h2 class="green">1. {{ childPropData[0] }}</h2>
       <p :="descOfAttr">엘리먼트의 텍스트 컨텐츠를 업데이트하는 디렉티브. 엘리먼트 내부의 기존 컨텐츠를 덮어씀</p>
-        <span v-text="vText"></span>
-        <br>
-        <span>이중괄호 이용 => {{ textCont }}</span>
+      <span v-text="vText"></span>
+      <br>
+      <span>이중괄호 이용 => {{ textCont }}</span>
     </div>
     <br>
 
 
-    <div id="vHtml">
+    <div id="v-html">
       <h2 class="green">2. {{ childPropData[1] }}</h2>
         <p :="descOfAttr"> HTML 코드를 직접적으로 입력해줄 떄 사용되는 디렉티브. 즉, 엘리먼트의 innerHTML을 업데이트 함</p>
         <div :="boxOfAttr">단, 웹사이트에서 임의의 HTML을 동적으로 렌더링하는 것은 XSS공격으로 쉽게 이어질 수 있기 때문에 신뢰할 수 있는 컨텐츠에만 사용 권장</div>
         <br>
         1번처럼 텍스트 보간법을 이용하면 string으로 입력되는데, 2번처럼 v-html 디렉티브를 이용하면 HTML코드로서 인식, 단, 이 태그에 값을 입력하면 에러
         <p>1. {{ linkToMedium }}</p>
-        2. <p v-html="linkToMedium"></p>
+        2. <span v-html="linkToMedium"></span>
     </div>
     <br>
 
-    <div id="vBind">
+    <div id="v-bind">
       <h2 class="green">3. {{ childPropData[2] }} </h2>
       <p :="descOfAttr"> html의 속성인 id, class, style 등에 대해 model의 데이터를 연결할 때 사용되는 디렉티브 => 하나 이상의 속성(:) 또는 컴포넌트 prop(.)을 표현식에 동적으로 바인딩</p>
       <p>`v-bind:속성명` = `:속성명`</p>
@@ -112,34 +124,48 @@ const boxOfAttr:Object = {
     </div>
     <br>
 
-    <!-- TODO: v-on 수식어 공부하기 -->
-    <div id="vShowAndVOn">
-      <h2 class="green"> 4. {{ childPropData[3]='v-show 및 v-on' }}</h2>
-      <p :="descOfAttr">v-show: 엘리먼트를 조건부로 표시하는 디렉티브. 표현식의 truthy값을 기반으로 엘리먼트의 가시성 전환</p>
-      <br>
-      <p :="descOfAttr">v-on: 엘리먼트에 이벤트 리스너 연결</p>
-      <p v-show="state">v-show의 값이 truthy일 때, 이 내용이 보이게 됨</p>
-      <button @click="changeBoolean()">{{ state? '숨기기':'보여주기' }}</button>
-      <ul> 수식어
+    <div id="v-show">
+      <h2 class="green"> 4. {{ childPropData[3]='v-show' }}</h2>
+      <p :="descOfAttr">엘리먼트를 조건부로 표시하는 디렉티브. 표현식의 truthy값을 기반으로 엘리먼트의 가시성 전환</p>
+      <div :="boxOfAttr">v-show가 있는 엘리먼트는 항상 렌더링되어 DOM에 남아있지만, v-if를 사용한 엘리먼트는 디렉티브 표현식이 truthy 값을 반환하는 경우에만 렌더링</div>
+      <p v-show="state">*v-show의 값이 truthy일 때, 이 내용이 보이게 됨</p>
+      <button @click="changeBoolean">{{ state? '숨기기':'보여주기' }}</button>
+    </div>
+    <br>
+
+    <div class="v-on">
+      <h2 class="green">5. {{ childPropData[4] }}</h2>
+      <p :="descOfAttr">이벤트 처리를 위한 디렉티브. 엘리먼트에 이벤트 리스너 연결</p>
+      <ul> 기본 수식어 외 기타
         <li>.stop: 이벤트 전파 중지. event.stopProppagation() 호출</li>
-        <button v-on:click="clickStop()">Click</button>
-        <button v-on:click.stop="clickStop()">Click(stop)</button>
+        <vOnEvent @childClickStop="parentClickStop">
+          <template #clickStop>
+          </template>
+        </vOnEvent>
         <li>.prevent: 이벤트의 기본 동작막음. event.preventDefault() 호출</li>
         <li>.capture: 캡처 모드로 이벤트 등록</li>
         <li>.self: 이벤트가 이 엘리먼트에서 전달된 경우에만 트리거 됨</li>
         <li>.{keyAlias}: 이벤트가 특정 키에 대해서만 트리거 됨</li>
         <li>.once: 이벤트가 한 번만 트리거 됨(일회용처럼)</li>
-        <li>.left: 마우스 왼쪽 버튼으로만 이벤트가 트리거 됨</li>
-        <li>.right: 마우스 오른쪽 버튼으로만 이벤트가 트리거 됨</li>
-        <li>.middle: 마우스 중앙(휠 클릭) 버튼으로만 이벤트가 트리거 됨</li>
+        
         <li>.passive: {passive: true} 옵션으로 DOM 이벤트 등록</li>
       </ul>
-      <div :="boxOfAttr">v-show가 있는 엘리먼트는 항상 렌더링되어 DOM에 남아있지만, v-if를 사용한 엘리먼트는 디렉티브 표현식이 truthy 값을 반환하는 경우에만 렌더링</div>
+      <br>
+      <ul>클릭 및 키 수식어
+        <li>.left: 마우스 왼쪽 버튼으로만 이벤트가 트리거 됨</li>
+        <li>.right: 마우스 오른쪽 버튼으로만 이벤트가 트리거 됨</li>
+        <button @click.right="rightAlert">rightAlert</button>
+        <li>.middle: 마우스 중앙(휠 클릭) 버튼으로만 이벤트가 트리거 됨</li>
+        <li>.ctrl : 컨트롤 키를 누른 상태에서만 이벤트 발생</li>
+        <li>.alt : 알트 키를 누른 상태에서만 이벤트 발생</li>
+        <li>.shift : 쉬프트 키를 누른 상태에서만 이벤트 발생</li>
+        <li>.meta : 메타 키(윈도우: 윈도우키, 맥: 커맨드 키)를 누른 상태에서만 이벤트 발생</li>
+      </ul>
     </div>
     <br>
 
-    <div id="vIf">
-      <h2 class="green">5. {{ childPropData[4] }}, {{ childPropData[5] }}, {{ childPropData[6] }}</h2>
+    <div id="v-if">
+      <h2 class="green">6. {{ childPropData[5] }}, {{ childPropData[6] }}, {{ childPropData[7] }}</h2>
       <p :="descOfAttr"> v-if: 표현식의 truthy값을 기반으로 엘리먼트 또는 템플릿 일부를 조건부로 렌더링함</p>
       <ul>
         <li> v-if 엘리먼트가 토글되면, 엘리먼트와 여기에 포함된 디렉티브/컴포넌트가 파괴되고 재구성됨</li>
@@ -157,8 +183,8 @@ const boxOfAttr:Object = {
       <br>
     </div>
 
-    <div id="vFor">
-      <h2 class="green">6. {{ childPropData[7] }}</h2>
+    <div id="v-for">
+      <h2 class="green">7. {{ childPropData[8] }}</h2>
       <p :="descOfAttr">소스 데이터를 기반으로 엘리먼트 또는 템플릿 블롯을 여러 번 렌더링하는 디렉티브, value, key, index순</p>
       <p>- 배열인 경우 value, key, index로 v-for를 돌리면 key에 index가 들어가게 됨</p>
       <div v-for="(value, key, index) in childPropData" :key="index">value: {{ value }}, key: {{ key }}, index: {{ index }}
@@ -169,8 +195,8 @@ const boxOfAttr:Object = {
     </div>
     <br>
 
-    <div id="vModel">
-      <h2 class="green">7. {{ childPropData[8] }}</h2>
+    <div id="v-model">
+      <h2 class="green">8. {{ childPropData[9] }}</h2>
       <p :="descOfAttr">사용자가 입력받는 폼 엘리먼트 또는 컴포넌트에 양방향 바인딩을 만드는 디렉티브 => input, select, textarea</p>
       <ul> 수식어
         <li>.lazy: input대신 change 이벤트를 수신함 => 즉 입력된 값이 바로 data에 반영되지 않고 엔터를 누르거나 포커스가 벗어나는 등의 이벤트가 발생할 경우에만 값이 반영</li>
@@ -183,16 +209,16 @@ const boxOfAttr:Object = {
     </div>
     <br>
 
-    <div id="vSlot">
-      <h2 class="green">8. {{ childPropData[9] }}</h2>
+    <div id="v-slot">
+      <h2 class="green">9. {{ childPropData[10] }}</h2>
       <p :="descOfAttr">slot과 비슷하지만 slot보다 좀 더 간결하고 명확한 구문제공. 실질적인 템플릿 코드 조각을 통째로 보내서 화면에 보여줄 수 있는 기능. Named Slot과 Scoped Slot사용을 통합한 새로운 디랙티브</p>
       
       <!-- 아래 코드를 template으로 감싸게 되면 elements에는 표시가 되나, 화면엔 렌더링 되지 않음. 바깥쪽 template은 렌더링할 요소가 없기 때문에 불필요한 template의 중첩으로 화면에 정상적으로 렌더링 되지않음 -->
       <div>
-        <p>부모 컴포넌트입니다(v-slot: 사용)</p>
-        <SlotChildComponent>
+        <p>예제1: 부모 컴포넌트입니다(v-slot: 사용)</p>
+        <SlotChildComponent myData="one">
           <template v-slot:child-header>
-            <h1>Header</h1>
+            <h1>Header(v-slot: 사용)</h1>
           </template>
           <template v-slot:default>
             <div>Body</div>
@@ -213,10 +239,10 @@ const boxOfAttr:Object = {
       <hr>
 
       <div>
-        <p>부모 컴포넌트입니다(v-slot:대신 #사용)</p>
-        <SlotChildComponent>
+        <p>예제2: 부모 컴포넌트입니다(v-slot:대신 #사용)</p>
+        <SlotChildComponent myData="two">
           <template #child-header>
-            <h1>Header</h1>
+            <h1>Header(#사용)</h1>
           </template>
           <template #default>
             <div>Body</div>
@@ -268,63 +294,78 @@ const boxOfAttr:Object = {
         </SlotChildComponent>
       </div> -->
       <div>
-        <SlotChildComponent>
+        <SlotChildComponent myData="three">
           <template v-slot:a="a">
-            {{ a.text }} {{ a.count }} => 자식으로부터 받은 a라는 데이터 객체를 받음
+            예제3: {{ a.text }} {{ a.count }} => 자식으로부터 받은 a라는 데이터 객체를 받음
           </template>
         </SlotChildComponent>
       </div>
       <div>
-        <SlotChildComponent>
+        <SlotChildComponent myData="four">
           <template #a="a">
-            #이용: {{ a.text }} {{ a.count }}
+            예제4: #이용: {{ a.text }} {{ a.count }}
           </template>
         </SlotChildComponent>
       </div>
 
       <div>
-        <SlotChildComponent>
+        <SlotChildComponent myData="five">
           <template v-slot:b="b">
-            {{ b.text }} {{ b.count }}
+            예제5: {{ b.text }} {{ b.count }}
           </template>
         </SlotChildComponent>
       </div>
 
       <div>
-        <SlotChildComponent>
+        <SlotChildComponent myData="six">
           <template v-slot:b="{text, count}">
-            {{ text }} {{ count }} => 자식으로부터 받은 객체 데이터 안에 있는 요소값을 따로 받을 수 있음 : {text, count} 
+            예제6: {{ text }} {{ count }} => 자식으로부터 받은 객체 데이터 안에 있는 요소값을 따로 받을 수 있음 : {text, count} 
+          </template>
+        </SlotChildComponent>
+      </div>
+      <div>
+        <SlotChildComponent myData="seven">
+          <template #slotMsg="msg">
+            예제7: {{ msg.message }} => 자식 컴포넌트에 정의된 메세지 전달, name과 message를 전달하지만 name은 slot name으로 예약어이기 때문에 전달되지 않고, message만 전달됨
+            <span :="boxOfAttr">*앞의 예제와 비슷하지만 차이점은 자식 컴포넌트 slot태그 내부에 :를 통해 전달했는지 안했는지의 차이(여기선 :사용 X, :사용하게 되면 변수 선언 후 사용 필요)</span>
           </template>
         </SlotChildComponent>
       </div>
       <hr>
       <div>
-        <SlotChildComponent>
-          <template #item="{body, username, likes}">
+        <SlotChildComponent myData="eight">
+          <template v-slot:item="{body, username, likes}">
             <div class="item">
+              예제8: 
               <p>{{ body }}</p>
               <p>by {{ username }} | {{ likes }} likes</p>
             </div>
           </template>
         </SlotChildComponent>
-      </div> 
-
-
-
+      </div>
+      
+      <div>
+        <SlotChildComponent myData="nine" #mouseover="{x,y}">
+          예제8: 마우스 좌표) {{ x }}, {{ y }} 
+          <p :="boxOfAttr">렌더리스 컴포넌트: 로직을 포함하기만 하고 자체적으로 아무 것도 렌더링하지 않는 컴포넌트, 시각적 출력은 지정된 슬롯이 사용될 컴포넌트에 완전히 위임됨</p>
+        </SlotChildComponent>
+      </div>
     </div>
     <br>
 
-
-    <div id="vPre">
-      <h2 class="green">9. {{ childPropData[10] }}</h2>
+    <hr>
+    <hr>
+    <br>
+    <div id="v-pre">
+      <h2 class="green">10. {{ childPropData[11] }}</h2>
       <p :="descOfAttr">이 엘리먼트와 모든 자식 엘리먼트의 컴파일 생략</p>
       <p>v-pre가 있는 엘리먼트 내에서 모든 Vue 템플릿 구문은 그대로 유지되고 렌더링됨 => 가장 일반적인 사례: 이중 중괄호 태그 표시</p>
       <span v-pre>{{ 이곳은 컴파일 되지 않습니다. }}</span>
     </div>
     <br>
 
-    <div id="vOnce">
-      <h2 class="green">10. {{ childPropData[11] }}</h2>
+    <div id="v-once">
+      <h2 class="green">11. {{ childPropData[12] }}</h2>
       <p :="descOfAttr">엘리먼트와 컴포넌트를 한 번만 렌더링하고, 향후 업데이트 생략</p>
       <ul>
         <li>표현식을 허용하지 않음</li>
@@ -336,20 +377,17 @@ const boxOfAttr:Object = {
     </div>
     <br>
 
-    <div id="vMemo">
-      <h2 class="green">11. {{ childPropData[12] }}</h2>
-      <p :="descOfAttr">템플릿의 하위 트리 메모. 배열의 모든 값이 마지막 렌더링과 같으면 전체 하위 트리에 대한 업데이트 생략</p>
-
-    </div>
-
-    <div id="vCloak">
+    <div id="v-memo">
       <h2 class="green">12. {{ childPropData[13] }}</h2>
+      <p :="descOfAttr">템플릿의 하위 트리 메모. 배열의 모든 값이 마지막 렌더링과 같으면 전체 하위 트리에 대한 업데이트 생략</p>
+    </div>
+    <br>
+
+    <div id="v-cloak">
+      <h2 class="green">13. {{ childPropData[14] }}</h2>
       <p :="descOfAttr">준비될 때까지 컴파일되지 않은 템플릿을 숨기는데 사용</p>
 
     </div>
-
-
-      p 
     </div>
 </template>
 
