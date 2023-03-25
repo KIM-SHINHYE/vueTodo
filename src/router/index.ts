@@ -18,37 +18,73 @@ const router = createRouter({
       component: () => import('@/views/AboutView.vue')
     },
     {
-      path: '/todoregister',
-      name: 'todoregister',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('@/views/TodoRegisterView.vue')
+      path: '/todo',
+      name: 'todo',
+      // Todo.vue를 따로 만든게 아니므로 component부분은 삭제한다.
+      // component: () => import('@/views/Todo.vue'),
+      children:[
+        // 자식 라우터에서는 /를 제외한 상대경로를 사용해야 함, 만약 /를 쓰려면 전부 다써줘야 함 
+        {
+          path: 'list', // /todo/list
+          // path: '/todo/list', // /todo/list
+          name: 'todo-list',
+          component: () => import('@/views/TodoListView.vue')
+        },
+        {
+          path: 'register', // /todo/register
+          name: 'todo-register',
+          component: () => import('@/views/TodoRegisterView.vue')
+        }
+      ]
     },
+    // {
+    //   path: '/todoregister',
+    //   name: 'todoregister',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (About.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import('@/views/TodoRegisterView.vue')
+    // },
+    // {
+    //   path: '/todolist',
+    //   name: 'todolist',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (About.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import('@/views/TodoListView.vue')
+    // },
     {
-      path: '/todolist',
-      name: 'todolist',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('@/views/TodoListView.vue')
+      path: '/user',
+      name: 'user',
+      children: [
+        {
+          path: 'list',
+          name: 'user-list',
+          component: () => import('@/views/UserListView.vue')
+        },
+        {
+          path: 'register',
+          name: 'user-register',
+          component: () => import('@/views/UserRegisterView.vue')
+        }
+      ]
     },
-    {
-      path: '/userregister',
-      name: 'userregister',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('@/views/UserRegisterView.vue')
-    },
-    {
-      path: '/userlist',
-      name: 'userlist',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('@/views/UserListView.vue')
-    },
+    // {
+    //   path: '/userregister',
+    //   name: 'userregister',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (About.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import('@/views/UserRegisterView.vue')
+    // },
+    // {
+    //   path: '/userlist',
+    //   name: 'userlist',
+    //   // route level code-splitting
+    //   // this generates a separate chunk (About.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    //   component: () => import('@/views/UserListView.vue')
+    // },
     {
       path: '/directive',
       name: 'directive',
