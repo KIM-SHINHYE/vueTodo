@@ -94,6 +94,11 @@ const router = createRouter({
       path: '/lifecycle',
       name: 'lifecycle',
       component: () => import('@/views/LifecycleView.vue')
+    },
+    {
+      path: '/exchange',
+      name: 'exchange',
+      component: () => import('@/views/CurrencyExchangeView.vue')
     }
   ]
 })

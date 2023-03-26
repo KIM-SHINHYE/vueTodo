@@ -19,6 +19,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/user/list">user-list</RouterLink>
         <RouterLink to="/directive">directive</RouterLink>
         <RouterLink to="/lifecycle">lifecycle</RouterLink>
+        <RouterLink to="/exchange">currency-exchange</RouterLink>
         <!-- url은 전부 소문자로 써주기(to) -->
       </nav>
     </div>
