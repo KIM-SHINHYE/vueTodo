@@ -140,7 +140,7 @@ const lifecycleList :Lifecycle[] = [
     warn: '',
     ex:''
   },
-]
+] 
 const errorFetchData = async () => {
   try {
     const result = await axios.get('https://jsonplaceholder.typicode.com/todos/11111');

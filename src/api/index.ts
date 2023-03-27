@@ -19,10 +19,21 @@ import axios from 'axios'
 export async function fetchData(): Promise<any[]>{
     try {
         // const response = await axios.get('https://reqres.in/api/users?page=2'); 이런식으로 https:// ~ api까지는 같을테니 baseUrl로 가져가는 거
-        const response = await axios.get('https://reqres.in/api/users?page=1');
+        const response = await axios.get('https://reqres.in/api/users?page=2');
         return Promise.resolve(response.data.data);
     } catch (error) {
         console.log(error)
         return Promise.reject()
     }
 }
+
+
+
+// export async function registerUser() {
+//     try {
+
+//     } catch(error) {
+
+//     }
+// }
+

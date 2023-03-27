@@ -3,10 +3,12 @@
 import { onMounted, ref, type Ref } from 'vue';
 import axios from 'axios';
 import {fetchData} from '@/api/index' // export한 함수명 써주기
+import { useUserStore } from '@/stores/user';
 
-// const todoStore = useStore();
+const userStore = useUserStore();
 // 먼저 화면이 렌더링 되고 script가 실행되면서 데이터가 매핑되는거 근데 렌더링되는 시점엔 []로 세팅이 되고 호출하면서 데이터가 세팅되는거기 때문에 ref선언해줘야 함
 let userList :Ref<any[]> = ref([]); // DOM 구축 후 넣어주는 것이므로 ref 선언
+// userList = userStore.users.sort((a, b) => parseInt(a.id) - parseInt(b.id));
 
 // ---------------------------
 // 1.
@@ -15,15 +17,42 @@ let userList :Ref<any[]> = ref([]); // DOM 구축 후 넣어주는 것이므로 
 // }
 
 // 2. 이 방식으로 많이 씀
+
+type User = {
+    email: string;
+    first_name: string;
+    last_name: string;
+
+    id: string;
+    name: string;
+    job: string;
+    createdAt: Date;
+}
+
 const userData =()=>{
-  fetchData().then((res)=>{
-    userList.value = res
-    console.log(userList.value)
+  fetchData().then((res:User[])=>{
+    // userList.value = res
+    userStore.addUser(res);
+    userList.value = userStore.users;
+    // userStore.addUsers(res);
+    // userList.value = userStore.users;
   }).catch((err)=>{
     console.log(err)
   })
 }
 userData()
+
+// onMounted(async () => {
+//   try {
+//     fetchData().then((res) => {
+//       // userStore.addUsers(res);
+//       console.log(userStore.users);
+//       userList.value = userStore.users;
+//     })
+//   } catch (err) {
+//     console.log(err);
+//   }
+// })
 
 // ---------------------------
 
