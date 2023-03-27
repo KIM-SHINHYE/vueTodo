@@ -46,9 +46,18 @@ const registerUser = () => {
 <template>
   <h1>사용자 등록</h1>
   <form @submit.prevent="registerUser">
-    이메일 : <input type="text" v-model="user.email"><br>
-    이름 : <input type="text" v-model="user.first_name"><br>
-    성 : <input type="text" v-model="user.last_name"><br>
+    <div style="width: 200px;">
+      <div style="float:right;">
+
+        이메일 : <input type="text" v-model="user.email"><br>
+      </div>
+      <div style="float:right;">
+        이름 : <input type="text" v-model="user.first_name"><br>
+      </div>
+      <div style="float:right;">
+        성 : <input type="text" v-model="user.last_name"><br>
+      </div>
+    </div>
     <!-- 이메일: <input type="text" v-model="user.email"><br>
   
     이름: <input type="text" v-model="user.first_name"><br>
