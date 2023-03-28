@@ -99,6 +99,16 @@ const router = createRouter({
       path: '/exchange',
       name: 'exchange',
       component: () => import('@/views/CurrencyExchangeView.vue')
+    },
+    {
+      path: '/computed',
+      name: 'computed',
+      component: () => import('@/views/ComputedView.vue')
+    },
+    {
+      path: '/watch',
+      name: 'watch',
+      component: () => import('@/views/WatchView.vue')
     }
   ]
 })
