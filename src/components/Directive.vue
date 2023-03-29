@@ -173,6 +173,7 @@ function parentClickStop() {
         <li> 텍스트 또는 여러 엘리먼트를 포함하는 조건부 블록을 나타내기 위해 template에 사용할 수 있음</li>
         <li> 이 디렉티브는 조건이 변경될 때, 트랜지션을 트리거 함</li>
         <li> v-for와 함께 사용하는 경우, v-if의 우선순위가 높음 -> 하나의 엘리먼트에 이 두 디렉티브를 함께 사용하는 것은 권장X</li>
+        <li> v-else/v-else-if를 쓸 때, v-if태그와 인접해 있어야 함</li>
       </ul>
       <p :="descOfAttr">v-else-if: v-if에 대한 else if 블록 나타냄, 계속 이어서 사용 가능</p>
       <p :="descOfAttr">v-else: v-if, v-else-if 체인에 대한 else, 표현식 허용하지 않음</p>

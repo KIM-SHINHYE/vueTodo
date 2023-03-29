@@ -1,8 +1,13 @@
 <script setup lang="ts">
+import { defineProps } from 'vue';
+
+const props = defineProps<{
+    mydata: string
+}>()
 </script>
 
 <template>
-    <div>
+    <div v-if="mydata == 'computed' || 'watch'">
         <!-- slot name 지정 -->
         <h1>*Computed vs Watch</h1>
         <table>
@@ -28,11 +33,6 @@
                     <td>감시하고 있는 데이터가 변경될 때 이를 감지하고 자동으로 연산하여 결과 값은 저장(캐싱) <br>=> 데이터가 변경되지 않는다면 캐싱한 결과를 즉시 반환</td>
                     <td>데이터가 변경되지 않아도 명시적으로 호출한다면 호출 결과를 반환</td>
                 </tr>
-                <!-- <tr>
-                    <td>return 필수 여부</td>
-                    <td>O</td>
-                    <td>X?</td>
-                </tr> -->
                 <tr>
                     <td>사용</td>
                     <td>데이터를 가공해서 보여주는 경우(템플릿)</td>
@@ -49,7 +49,8 @@
         </table>
     </div>
     <br>
-    <div>
+    
+    <div v-if="mydata == 'computed'">
         <h1>*Computed vs Methods</h1>
         <table>
             <thead>
@@ -87,8 +88,38 @@
                 </tr>
                 <tr>
                     <td>물어볼거 및 할거</td>
-                    <td colspan="2">watch의 사용은 피해야 할까?, 재렌더링할 때, methods는 계속 호출되는 반면, computed는 값이 변경되지 않았다면 호출되는건가?, watch는 ref랑 꼭 같이 사용해야되나?, <br> 비스트에서의 사용</td>
+                    <td colspan="2">watch의 사용은 피해야 할까?, 재렌더링할 때, methods는 계속 호출되는 반면, computed는 값이 변경되지 않았다면 호출되는건가?, watch는 ref랑 꼭 같이 사용해야되나?, <br> 비스트에서의 사용, watch와 watcheffect의 차이점</td>
                 </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div v-if="mydata == 'watch'">
+        <h1>*watch() vs watchEffect()</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>비교</th>
+                    <th>watch</th>
+                    <th>watchEffect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>공통점</td>
+                    <td colspan="2">https://ko.vuejs.org/guide/essentials/watchers.html#watcheffect</td>
+                </tr>
+                <tr>
+                    <td>호출 방법</td>
+                    <td>()를 붙일 필요없이 호출</td>
+                    <td>()를 붙여서 호출</td>
+                </tr>
+                <tr>
+                    <td>인자</td>
+                    <td>X <br>=> 함수 형태로 호출하는 것이 아니므로 인자를 가질 수 없음</td>
+                    <td>O</td>
+                </tr>
+                
             </tbody>
         </table>
     </div>
