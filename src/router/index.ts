@@ -109,6 +109,11 @@ const router = createRouter({
       path: '/watch',
       name: 'watch',
       component: () => import('@/views/WatchView.vue')
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: () => import('@/views/FaqView.vue')
     }
   ]
 })

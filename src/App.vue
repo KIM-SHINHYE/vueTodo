@@ -21,8 +21,9 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/lifecycle">lifecycle</RouterLink>
         <RouterLink to="/exchange">currency-exchange</RouterLink>
         <!-- 1.무엇인지, 2.어떻게 언제 사용하는지, 3.비스트에서는 어떻게 사용하는지 -->
-        <RouterLink to="/computed">computed 속성</RouterLink>
-        <RouterLink to="/watch">watch 속성</RouterLink>
+        <RouterLink to="/computed">computed</RouterLink>
+        <RouterLink to="/watch">watch</RouterLink>
+        <RouterLink to="/faq">FAQ</RouterLink>
         <!-- url은 전부 소문자로 써주기(to) -->
       </nav>
     </div>
