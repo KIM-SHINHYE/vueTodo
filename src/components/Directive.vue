@@ -53,7 +53,6 @@ let modelLazy:Ref<string> = ref('')
 let modelNumber:Ref<string> = ref('')
 let modelTrim:Ref<string> = ref('')
 let msg:string = 'v-once를 사용한 span태그';
-
 const boxOfAttr:Object = {
   style: 'color: yellow;'
 }

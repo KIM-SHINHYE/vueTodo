@@ -35,7 +35,7 @@ const props = defineProps<{
                 </tr>
                 <tr>
                     <td>사용</td>
-                    <td>데이터를 가공해서 보여주는 경우(템플릿)</td>
+                    <td>데이터를 가공해서 보여주는 경우(템플릿 이중괄호)</td>
                     <td>
                         <ol style="padding-left: 20px;">
                             <li>데이터 변경으로 API를 호출하는 경우(서버 통신)</li>
@@ -107,19 +107,13 @@ const props = defineProps<{
             <tbody>
                 <tr>
                     <td>공통점</td>
-                    <td colspan="2">https://ko.vuejs.org/guide/essentials/watchers.html#watcheffect</td>
+                    <td colspan="2">사이드 이펙트를 반응적으로 실행할 수 있게 함</td>
                 </tr>
                 <tr>
-                    <td>호출 방법</td>
-                    <td>()를 붙일 필요없이 호출</td>
-                    <td>()를 붙여서 호출</td>
+                    <td>반응형 의존성 추적 방식</td>
+                    <td>명시적으로 감시된 소스만 추적, 의존성 추적을 사이드 이펙트와 분리<br>=> 즉, 콜백 내에서 조회하는 항목은 추적하지 않지만 콜백이 실행되어야 하는 시기를 보다 명확하게 제어 가능</td>
+                    <td>의존성 추적과 사이드 이펙트를 하나의 단계로 결합 <br>=> 즉, 동기적 실행 중에 조회되는 모든 반응형 속성을 자동으로 추적하지만 콜백이 실행되어야 하는 시기가 덜 명시적</td>
                 </tr>
-                <tr>
-                    <td>인자</td>
-                    <td>X <br>=> 함수 형태로 호출하는 것이 아니므로 인자를 가질 수 없음</td>
-                    <td>O</td>
-                </tr>
-                
             </tbody>
         </table>
     </div>
