@@ -239,7 +239,7 @@ onServerPrefetch(() => {
   </div>
   <br>
   <h1>Lifecycle</h1>
-  <img src="https://dltqhkoxgn1gx.cloudfront.net/img/posts/how-to-use-lifecycle-hooks-in-vue3-1.png" style="height: 50; width: 850px; ">
+  <img src="https://dltqhkoxgn1gx.cloudfront.net/img/posts/how-to-use-lifecycle-hooks-in-vue3-1.png" style="height: 50; width: 650px; ">
   <table>
     <thead>
       <tr>

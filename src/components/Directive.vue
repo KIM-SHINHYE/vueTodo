@@ -132,7 +132,7 @@ function parentClickStop() {
     </div>
     <br>
 
-    <div class="v-on">
+    <div id="v-on">
       <h2 class="green">5. {{ childPropData[4] }}</h2>
       <p :="descOfAttr">이벤트 처리를 위한 디렉티브. 엘리먼트에 이벤트 리스너 연결</p>
       <ul> 기본 수식어 외 기타
@@ -163,7 +163,7 @@ function parentClickStop() {
     </div>
     <br>
 
-    <div id="v-if">
+    <div id="v-if, v-else-if, v-else">
       <h2 class="green">6. {{ childPropData[5] }}, {{ childPropData[6] }}, {{ childPropData[7] }}</h2>
       <p :="descOfAttr"> v-if: 표현식의 truthy값을 기반으로 엘리먼트 또는 템플릿 일부를 조건부로 렌더링함</p>
       <ul>
@@ -185,7 +185,7 @@ function parentClickStop() {
 
     <div id="v-for">
       <h2 class="green">7. {{ childPropData[8] }}</h2>
-      <p :="descOfAttr">소스 데이터를 기반으로 엘리먼트 또는 템플릿 블롯을 여러 번 렌더링하는 디렉티브, value, key, index순</p>
+      <p :="descOfAttr">소스 데이터를 기반으로 엘리먼트 또는 템플릿 블록을 여러 번 렌더링하는 디렉티브, value, key, index순</p>
       <p>- 배열인 경우 value, key, index로 v-for를 돌리면 key에 index가 들어가게 됨</p>
       <div v-for="(value, key, index) in childPropData" :key="index">value: {{ value }}, key: {{ key }}, index: {{ index }}
       </div>
