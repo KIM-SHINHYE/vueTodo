@@ -114,6 +114,7 @@ function parentClickStop() {
       <h2 class="green">3. {{ childPropData[2] }} </h2>
       <p :="descOfAttr"> html의 속성인 id, class, style 등에 대해 model의 데이터를 연결할 때 사용되는 디렉티브 => 하나 이상의 속성(:) 또는 컴포넌트 prop(.)을 표현식에 동적으로 바인딩</p>
       <p>`v-bind:속성명` = `:속성명`</p>
+      <h5>*`:`뒤에는 태그 속성명만 적을 수 있음. 혹은 커스텀 디렉티브를 만든 후, 사용자 정의 속성을 적을 순 있음</h5>
       <ul> 수식어
         <li>.camel: kebab-case속성 이름을 camelCase로 변환</li>
         <li>.prop: 바인딩을 DOM 속성(property)강제 설정</li>

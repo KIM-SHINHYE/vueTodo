@@ -22,7 +22,7 @@ interface Item {
 // 2-1. Interface의 선언적 확장(이 인터페이스를 정의하기 전에 기존에 같은 이름으로 먼저 선언되어 있어야 함)
 interface Person {
     name: string;
-    age: string;
+    age: number;
     msg: string;
 }
 
@@ -36,17 +36,17 @@ interface Employee extends Person {
 }
 
 let john:Person = reactive({
-    name: '',
-    age: '',
-    nationality: '',
+    name: 'john 초기값 name',
+    age: 20,
+    nationality: 'john 초기값 nationality',
     msg: 'interface의 선언적 확장'
 })
 
 let jenny:Employee = reactive({
-    salary: 0,
-    name: '',
-    age: '',
-    nationality: '',
+    salary: 100000000,
+    name: 'jenny 초기값 name',
+    age: 21,
+    nationality: 'jenny 초기값 nationality',
     msg: 'interface의 extends로 처리'
 })
 
@@ -61,9 +61,9 @@ type Dog = Animal & {
 }
 
 let bambi:Dog = reactive({ // 자동완성 X
-    species: '',
-    sound: '',
-    breed: '',
+    species: 'bambi 초기값 species',
+    sound: 'bambi 초기값 sound',
+    breed: 'bambi 초기값 breed',
     msg: 'type의 확장'
 })
 
@@ -79,19 +79,25 @@ const items= reactive([ // reactive 사용할 때는 타입을 명시해주지 �
     {
         id:1,
         title: 'Type 과 Interface의 차이',
-        panelItem: '- 공통점: 객체의 타입 이름 지정<br>Type의 특징 : 특수문자&으로 확장, 선언적 확장X <br>Interface의 특징 : extends로 확장 및 선언적 확장, 객체에만 사용 가능 <br>*TypeScipt팀은 Interface사용을 권장하고, 합(|) 타입 혹은 튜플 타입을 반드시 써야되는 상황이면 Type 사용을 권함<br>',
+        panelItem: '>>공통점: 객체의 타입 이름 지정<br>>>Type의 특징 : 특수문자&으로 확장, 선언적 확장X <br>>>Interface의 특징 : extends로 확장 및 선언적 확장, 객체에만 사용 가능 <br>*TypeScipt팀은 Interface사용을 권장하고, 합(|) 타입 혹은 튜플 타입을 반드시 써야되는 상황이면 Type 사용을 권함<br>',
         activePanels: false,
     },
     {
         id:2,
         title: 'Async-Await',
-        panelItem: '>>JS에서 사용하는 비동기 처리 패턴, Promise를 간소화한 형태<br> async함수는 비동기 작업을 수행하고, 해당 함수 안에서 await 키워드를 사용하여 다른 비동기 함수가 완료될 때까지 대기하게 함<br> *동기적이란 말은 코드의 실행이 일시 중지되어 다른 작업을 처리할 수 없는 상태, await키워드를 통해 실행이 일시 중지된 것은 JS엔진은 다른 작업을 처리할 수 있는 상태',
+        panelItem: '>>JS에서 사용하는 비동기 처리 패턴, Promise를 간소화한 형태<br>>> async함수는 비동기 작업을 수행하고, 해당 함수 안에서 await 키워드를 만나면 해당하는 프로미스가 처리될 때까지 현재 실행 중인 함수의 실행을 일시 중지하고, 그 사이에 다른 작업 처리<br> *동기적이란 말은 코드의 실행이 일시 중지되어 다른 작업을 처리할 수 없는 상태, await키워드를 통해 실행이 일시 중지된 것은 JS엔진은 다른 작업을 처리할 수 있는 상태',
         activePanels: false
     },
     {
         id:3,
         title: 'HTMLCollection과 NodeList의 주요 차이점',
-        panelItem: 'HTMLCollection은 동적이고, NodeList는 정적.<br>=> 즉, DOM에 새로운 요소(Element)가 추가되면 HTMLCollection은 새로운 요소를 가져오지만 NodeList는 가져오지 못함. <br>=> 따라서, HTMLCollection은 Array.from()을 이용해 객체를 배열로 만들어야 함',
+        panelItem: 'HTMLCollection은 동적, NodeList는 정적.<br>=> 즉, DOM에 새로운 요소(Element)가 추가되면 HTMLCollection은 새로운 요소를 가져오지만 NodeList는 가져오지 못함. <br>=> 따라서, HTMLCollection은 Array.from()을 이용해 객체를 배열로 만들어야 함',
+        activePanels: false
+    },
+    {
+        id: 4,
+        title: 'ref vs reactive',
+        panelItem: 'const state = ref({count:0, message: \'Hello\'}) 이런식으로 ref에서도 객체타입을 만들 수 있지만 접근을 하려면 .value를 이용해서 state.value.count 이렇게 접근 <br> const state = reactive({count:0, message:\'Hello\'}) reactive를 이용해서 객체타입을 만들면 state.count이런 식으로 접근 <br>>> 어떤 것을 쓰던 상관없으나 "중첩된 객체나 배열의 경우 객체 또는 배열의 변경 사항을 감지"하여 자동으로 반응성을 유지하려면 reactive를 사용하는게 좋음',
         activePanels: false
     },
     // {
@@ -105,6 +111,9 @@ function togglePanel(index: number) {
     items[index].activePanels = !items[index].activePanels;
     items[index]
 }
+
+john.name = 'john에 다른 name 할당' ;
+jenny.nationality = 'jenny에 다른 nationality 할당';
 </script>
 
 <template>
@@ -130,7 +139,7 @@ function togglePanel(index: number) {
         <h1>async/await</h1>
         <div>
         <h1>ref vs reactive</h1>
-        <p>const state = ref({count:0, message: 'Hello'}) 이런식으로 ref에서도 객체타입을 만들 수 있지만 접근을 하려면 .value를 이용해서 state.value.count 이렇게 접근해야되고, const state = reactive({count:0, message:'Hello'}) 이렇게 reactive를 이용해서 객체타입을 만들면 state.count이런 식으로 접근</p>
+        <p> 해야되고,  이렇게 근</p>
         <p>"ref"는 기본 자료형 또는 객체를 감싸서, 해당 데이터를 반응형으로 만듦,  "reactive"는 객체를 반응형으로 만듦</p>
         <p>객체를 반응형으로 만들 땐 reactive를 사용하는게 맞음, ref함수는 내부적으로 객체를 래핑하기 때문에 객체의 속성에 접근할 때마다 .value사용헤 ref객체 내부의 값이 객체형태고 이때마다 .value를 사용하는 것이므로 성능에 악영향 줄 수 잇음, reactive로 만든 객체는 객체 내부의 속성이 변경될 때마다 자동으로 업데이트 되어 화면을 다시 그릴 필요없이 바로 반영 </p>
         <p>ref는 객체 전체를 대상으로 감시해서 객체 내부의 속성값이 변경될 때마다 ref객체 자체의 값이 변경되는 거고, reactive로 만든 객체는 객체 내부의 속성을 감시해서 객체 내부의 속성값이 변경되어도 reactive객체 자체는 변경되지 않는다</p>
@@ -175,7 +184,7 @@ p{
 }
 
 .panel.active {
-    max-height: 500px;
+    max-height: 1000px;
     transition: height 0.5s ease-in;
 }
 </style>

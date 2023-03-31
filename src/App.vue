@@ -20,9 +20,9 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/directive">directive</RouterLink>
         <RouterLink to="/lifecycle">lifecycle</RouterLink>
         <RouterLink to="/exchange">currency-exchange</RouterLink>
-        <RouterLink to="/compxuted">computed</RouterLink>
+        <RouterLink to="/computed">computed</RouterLink>
         <RouterLink to="/watch">watch</RouterLink>
-        <RouterLink to="/drilling">props drilling</RouterLink>
+        <RouterLink to="/drilling">prop drilling</RouterLink>
         <RouterLink to="/faq">FAQ</RouterLink>
         <!-- url은 전부 소문자로 써주기(to) -->
       </nav>

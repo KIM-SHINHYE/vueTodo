@@ -118,7 +118,7 @@ const router = createRouter({
     {
       path: '/drilling',
       name: 'drilling',
-      component: () => import('@/views/PropsDrillingView.vue')
+      component: () => import('@/views/PropDrillingView.vue')
     }
   ]
 })
