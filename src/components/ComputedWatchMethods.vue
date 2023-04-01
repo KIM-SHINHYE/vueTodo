@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div v-if="mydata == 'computed' || 'watch'">
+    <div v-if="props.mydata == 'computed' || 'watch'">
         <!-- slot name 지정 -->
         <h1>*Computed vs Watch</h1>
         <table>
@@ -50,7 +50,7 @@ const props = defineProps<{
     </div>
     <br>
     
-    <div v-if="mydata == 'computed'">
+    <div v-if="props.mydata == 'computed'">
         <h1>*Computed vs Methods</h1>
         <table>
             <thead>
@@ -94,7 +94,7 @@ const props = defineProps<{
         </table>
     </div>
 
-    <div v-if="mydata == 'watch'">
+    <div v-if="props.mydata == 'watch'">
         <h1>*watch() vs watchEffect()</h1>
         <table>
             <thead>

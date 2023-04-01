@@ -29,6 +29,7 @@ export const useUserStore = defineStore('userStore', () => {
         userList.value = [...createList.value,...user]
     }
     
+    // 여기서 computed를 선언하지 않으면 로딩되지 않음
     const createUsers = computed(() => createList.value);
     const users = computed(() =>userList.value);
     return {users,createUsers,addUser,addCreateUser}
