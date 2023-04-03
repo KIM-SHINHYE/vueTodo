@@ -23,6 +23,8 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/computed">computed</RouterLink>
         <RouterLink to="/watch">watch</RouterLink>
         <RouterLink to="/drilling">prop drilling</RouterLink>
+        <RouterLink to="/promise">promise</RouterLink>
+        <RouterLink to="/async-await">async-await</RouterLink>
         <RouterLink to="/faq">FAQ</RouterLink>
         <!-- url은 전부 소문자로 써주기(to) -->
       </nav>

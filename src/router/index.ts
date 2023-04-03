@@ -119,6 +119,16 @@ const router = createRouter({
       path: '/drilling',
       name: 'drilling',
       component: () => import('@/views/PropDrillingView.vue')
+    },
+    {
+      path: '/promise',
+      name: 'promise',
+      component: () => import('@/views/PromiseView.vue')
+    },
+    {
+      path: '/async-await',
+      name: 'async-await',
+      component: () => import('@/views/AsyncAwaitView.vue')
     }
   ]
 })
