@@ -25,19 +25,21 @@ async function getBanana() {
 
 async function pickFurits() {
     try{
-        const apple =  await getApple();
-        const banana =  await getBanana();
-        // await가 붙으면 Promise객체 안에 있는 PromiseResult(🍎, 🍌)를 반환, await가 붙지 않으면 PromiseResult를 포함하는 Promise객체를 반환
-        console.log('apple', apple);
-        console.log('banana', banana);
-        // return Promise.resolve(`${apple} + ${banana}`)
-        return `${apple} + ${banana}` // 이 값이 then으로 들어가게 됨
+        const apple =   getApple();
+        const banana =   getBanana();
+        // await가 붙으면 Promise객체 안에 있는 실제 값인 PromiseResult(🍎, 🍌)를 반환, await가 붙지 않으면 PromiseResult를 포함하는 Promise객체 자체를 반환
+        // await를 사용하면 비동기 작업을 동기적으로 처리하는 것처럼 보이지만, await가 호출되면 이후의 코드는 비동기적으로 실행되며, await가 반환한 값을 가지고 새로운 promise객체를 생성하여 이후의 코드에서 사용
+        console.log('apple:', apple);
+        console.log('banana:', banana);
+        return Promise.resolve(`${apple} + ${banana}`)
+        // return `${apple} + ${banana}` // 이 값이 then으로 들어가게 됨
     } catch(error){
         console.log(error);
         return Promise.reject(error);
     }
 }
-pickFurits().then(fruits => console.log('fruits', fruits));
+pickFurits().then(fruits => console.log('fruits:', fruits));
+// 만약 pickFurits에서 await를 붙이지 않고 then호출시 fruits에 있는 값이 문자열로 반환이 됨 '[object Promise] + [object Promise]'
 
 </script>
 
@@ -52,7 +54,7 @@ pickFurits().then(fruits => console.log('fruits', fruits));
             <h3>Await</h3>
             <li>await는 async를 붙인 함수 내부에서만 사용 가능</li>
             <li>await는 함수의 내부 로직 중 HTTP 통신을 하는 비동기 코드 앞에 붙임 <br>=> 비동기 처리 메서드(주로 axios)가 꼭 Promise객체를 반환해야 await가 의도한 대로 동작</li>
-            <li>await키워드가 없는 경우: <br>-  PromiseResult를 포함하는 Promise객체를 반환<br>- Promise객체가 resolve되기 전에 반환문이 실행되는 것이므로 Promise.resolve/Promise.reject로 감싸서 호출(함수가 아직 끝나지 않은 상태에서 비동기 처리 중일 때 Promise객체가 반환되는 것이므로 pending 상태를 return) <h5>*pending일 경우 다른 코드가 싱행되면 예상치 못한 결과를 초래할 수 있길 때문에 fulfilled상태가 될 때까지 기다렸다가 다음 코드 실행하는 것이 좋음(await사용)</h5><h5>*pending일 경우 아직 비동기 작업이 완료되지 않은 상태이므로 .then(), .catch()같은 콜백함수 처리 불가능</h5></li>
+            <li>await키워드가 없는 경우: <br>-  PromiseResult를 포함하는 Promise객체를 반환<br>- Promise객체가 resolve되기 전에 반환문이 실행되는 것이므로 Promise.resolve/Promise.reject로 감싸서 호출(함수가 아직 끝나지 않은 상태에서 비동기 처리 중일 때 Promise객체가 반환되는 것이므로 pending 상태를 return) <h5>*pending일 경우 다른 코드가 싱행되면 예상치 못한 결과를 초래할 수 있길 때문에 fulfilled상태가 될 때까지 기다렸다가 다음 코드 실행하는 것이 좋음(async이용시 await사용)</h5><h5>*pending일 경우 아직 비동기 작업이 완료되지 않은 상태이므로 .then(), .catch()같은 콜백함수 처리 불가능(사용은 가능하지만 정상작동 되지X)</h5></li>
             <li>await키워드가 있는 경우: <br>- Promise객체 안에 있는 PromiseResult(🍎, 🍌)를 반환<br>- Promise객체가 resolve된 후에 반환문이 실행되는 것이므로 Promise.resolve/Promise.reject를 사용하지 않아도 됨 </li>
         </ul>
         <br>
@@ -79,6 +81,7 @@ async function pickFruitsAsync() {
     try{
         const apple = await getApple();
         const banana = await getBanana();
+        // await를 붙이지 않고 then호출시 fruits에 있는 값이 문자열로 반환이 됨 '[object Promise] + [object Promise]'
         
         return `${apple} + ${banana}`;
         
@@ -86,6 +89,9 @@ async function pickFruitsAsync() {
         console.log(error);
     }
 }
+
+
+pickFruitsAsync().then(fruits => console.log('fruits:', fruits));  fruits: [object Promise] + [object Promise] => 문자열
         </pre>
     </div>
 </template>

@@ -76,6 +76,31 @@ getHen()
     .then(console.log)
     .catch(console.log)
 
+// function delay(ms:number){
+// return new Promise(resolve => setTimeout(resolve, ms));
+// }
+
+// async function getApple() {
+// await delay(1000); // delay()가 끝날 때까지 기다렸다가 🍎 return
+// return '🍎';
+// }
+
+// async function getBanana() {
+// await delay(2000);
+// return '🍌';
+// }
+// function pickAllFruits() {
+// return Promise.all([getApple(), getBanana()]) // 다 받아지면 
+// .then(fruits => fruits.join(' + ')); // 그 받아진 애들이 배열로 전달됨
+// }
+// // pickAllFruits().then(console.log); // 🍎 + 🍌
+
+// function pickOnlyOne() {
+// // apple은 1초, banana는 2초 걸리기 때문에 apple이 return됨
+// return Promise.race([getApple(), getBanana()]);
+// }
+// pickOnlyOne().then(console.log)
+
 </script>
     
 <template>
@@ -102,16 +127,16 @@ getHen()
                 <pre>const promise = new Promise();</pre>
                 Promise() 메서드 호출 시, 2개의 콜백함수 호출 가능
                 <pre>new Promise((resolve, reject) => {})</pre>
-                <h5 :style="attrOfDesc.h5.style">*pending일 경우 다른 코드가 싱행되면 예상치 못한 결과를 초래할 수 있길 때문에 fulfilled상태가 될 때까지 기다렸다가 다음 코드 실행하는 것이 좋음(await사용)</h5><h5 :style="attrOfDesc.h5.style">*pending일 경우 아직 비동기 작업이 완료되지 않은 상태이므로 .then(), .catch()같은 콜백함수 처리 불가능</h5>
+                <h5 :style="attrOfDesc.h5.style">*pending일 경우 다른 코드가 싱행되면 예상치 못한 결과를 초래할 수 있길 때문에 fulfilled상태가 될 때까지 기다렸다가 다음 코드 실행하는 것이 좋음(async이용시 await사용)</h5><h5 :style="attrOfDesc.h5.style">*pending일 경우 아직 비동기 작업이 완료되지 않은 상태이므로 .then(), .catch()같은 콜백함수 처리 불가능(사용은 가능하지만 정상작동 되지X)</h5>
             </li>
-            <li><h3>Fulfilled(Resolve)</h3>: 비동기 처리가 완료되어 결과 값을 반환한 상태
+            <li><h3>Fulfilled(Resolve)</h3>: 비동기 처리가 완료되어 결과 값(성공)을 반환한 상태
                 resolve를 실행하면 이행/완료 상태 => then()을 이용해 처리 결과 값 받을 수 있음
                 <pre>new Promise((resolve, reject) => {
         resolve();
 })
                 </pre>
             </li>
-            <li><h3>Reject</h3>: 비동기 처리가 실패하거나 오류가 발생한 상태 => catch()를 이용해 결과값 받아올 수 있음
+            <li><h3>Reject</h3>: 비동기 처리가 실패하거나 오류가 발생한 상태 => catch()를 이용해 결과 값(에러) 받아올 수 있음
                 <pre>new Promise((resolve, reject) => {
         reject();
 })
@@ -198,7 +223,7 @@ getHen()
         return '🥐'; // 여기서 egg를 못받아 와서 error가 아닌 bread로 바꿔서 return해줌
     })
     .then(cook)
-    .then(console.log)
+    .then(console.log) // 🐓 => 🥚 => 🍳
     .catch(console.log)
         </pre>
     </div>
@@ -206,7 +231,7 @@ getHen()
     <div>
         <h2>Promise API의 정적 메서드</h2>
         <ol>
-            <li>Promise.all: <br><span :style="attrOfDesc.p.style">여러 개의 Promise들을 병렬적(비동기적)으로 실행하여 처리</span><pre>const promise = Promise.all([/*처리할 Promise들*/])</pre>  <br>- 여러 개의 Promise들 중 하나라도 reject를 반환하거나 에러가 날 경우, 모든 Promise들을 reject시킴<br>- 배열 안 promise가 모두 처리되면, 배열 안 promise의 결과값을 담은 배열이 새로운 Promise의 result됨<br>=> 각 Promise의 처리 순서를 보장하되, 결과를 하나의 배열로 저장하고 싶을 때 사용
+            <li>Promise.all: <br><span :style="attrOfDesc.p.style">여러 개의 Promise들을 병렬적(비동기적)으로 실행하여 처리</span><pre>const promise = Promise.all([/*처리할 Promise들*/])</pre>  <br>- 여러 개의 Promise들 중 하나라도 reject를 반환하거나 에러가 날 경우, 모든 Promise들을 reject시킴<br>- 배열 안 promise가 모두 처리되면, 배열 안 promise의 결과값을 담은 배열이 새로운 Promise의 result됨<br>=><u> 각 Promise의 처리 순서를 보장하되, 결과를 하나의 배열로 저장하고 싶을 때 사용</u>
             <pre>
 Promise.all([
   new Promise(resolve => setTimeout(()=> resolve(1),3000)), 
@@ -230,7 +255,7 @@ Promise.all([
             
             <br><br>
 
-            <li>Promise.resolve/Promise.reject:<br>- async/await문법이 생긴 후 필요없어졌지만 사용하는 편이 일관성과 안정성을 유지하는 데 좋음<pre>const promise = new Promise((resolve, reject) => {
+            <li>Promise.resolve/Promise.reject:<br>- async/await문법으로 반환되는 결과값에 promise객체가 래핑되기 때문에 필요없어졌지만 사용하는 편이 코드의 일관성과 가독성 및 안정성을 유지하는 데 좋음<pre>const promise = new Promise((resolve, reject) => {
                     resolve(1) 
                     //reject(new Error('no network'))
 })</pre><br><pre>async function pickFruitsAsync() {

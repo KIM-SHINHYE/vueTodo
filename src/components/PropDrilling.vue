@@ -18,7 +18,7 @@ const descOfAttr:Object = {
 const inputSize = 'width: 200px';
 
 let provideMsg:Ref<string> = ref('자식에게 보내는 메세지-provide');
-provide('provideMessage', provideMsg);
+// provide('provideMessage', provideMsg);
 
 
 let storeMsg:Ref<string> = ref('자식에게 보내는 메세지-store');
@@ -44,9 +44,9 @@ const attrOfPre = 'color: black; background-color: aliceblue; padding: 7px;'
         <ol> <h2>해결방법</h2>
             <li>Provide, Inject 사용
                 <ul>
-                    <li>Provide: <br>- 컴포넌트의 하위 항목에 데이터 제공,<br>- 두 개의 인자 허용(주입키 및 symbol(자식 컴포넌트에서 주입을 원하는 값을 조회하는데 사용), 제공되는 값(자식 컴포넌트에서 실제로 사용을 원하는 값, 객체로 묶어 보낼 수 있음))<br>- App.vue에서 사용하면 앱에서 렌더링 되는 모든 컴포넌트에서 사용 가능(app.provide()형태)<br>- 전달된 데이터가 주입된 컴포넌트에 의해 변경될 수 없도록 하려면 readonly()로 래핑<br><pre :style="attrOfPre">const count = ref(0)
+                    <li>Provide: <br>- 컴포넌트의 하위 항목에 데이터 제공,<br>- 두 개의 인자 허용(주입키 및 symbol(자식 컴포넌트에서 주입을 원하는 값을 조회하는데 사용), 제공되는 값(자식 컴포넌트에서 실제로 사용을 원하는 값, 객체로 묶어 보낼 수 있음))<br>- App.vue에서 사용하면 앱에서 렌더링 되는 모든 컴포넌트에서 사용 가능<pre :style="attrOfPre">app.provide(/* 키 */ 'message', /* 값 */ '안녕!')</pre><br>- 전달된 데이터가 주입된 컴포넌트에 의해 변경될 수 없도록 하려면 readonly()로 래핑<br><pre :style="attrOfPre">const count = ref(0)
 provide('read-only-count', readonly(count))</pre></li>
-                    <li>Inject: <br>- 부모 컴포넌트에서 제공하는 데이터 주입 <br>- 두 개의 인자 허용(부모 컴포넌트에서 주입한 값 조회 단어, 값이 오지 않았을 시 지정할 기본 값)</li>
+                    <li>Inject: <br>- 부모 컴포넌트에서 제공하는 데이터 주입 <br>- 두 개의 인자 허용(부모 컴포넌트에서 주입한 값 조회 단어, 값이 오지 않았을 시 지정할 기본 값) => provide를 해지 않았을 경우<pre :style="attrOfPre">const value = inject('message', '이것은 기본 값 문자열 입니다.')</pre> </li>
                 </ul>
             </li>
             <li>Store 사용</li>
@@ -61,6 +61,7 @@ provide('read-only-count', readonly(count))</pre></li>
     
         <DrillingFirstChild/>
         <br>
+        <h4>[부모 컴포넌트에서 보내는 데이터]</h4>
         <div>
             <h3>1. Provide, Inject 사용</h3>
             <h5 style="color:yellowgreen">부모: {{ provideMsg }}</h5>
