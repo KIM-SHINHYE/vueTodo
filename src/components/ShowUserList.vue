@@ -29,6 +29,7 @@ type User = {
     createdAt: Date;
 }
 
+// fetchData를 가져다 쓸 때, then 처리
 const userData =()=>{
   fetchData().then((res:User[])=>{
     // userList.value = res

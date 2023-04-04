@@ -1,13 +1,14 @@
 <script setup lang="ts">
 const attrOfDesc = {
     p: {
+        class: 'mainDesc',
         style: 'color: blue; background-color:white; font-weight: bold;'
     },
     h5: {
+        class: 'subDesc',
         style: 'color: yellow;'
     }
 }
-// const attrOfPre = ''
 
 const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -80,7 +81,7 @@ getHen()
 <template>
     <div>
         <h1>Promise</h1>
-        <p :style="attrOfDesc.p.style">Javascript의 비동기 처리를 간편하게 할 수 있도록 도와주는 객체, 2개의 콜백함수(resolve, reject) 전달<br>=> 주로 서버에서 받아온 데이터를 화면에 표시할 때 사용 <br>=> 데이터를 다 받아오기도 전에 화면에 표시하려고 하면 에러 발생하는데, 이 문제를 해결하고자 사용</p>
+        <p :style="attrOfDesc.p.style">Javascript의 비동기 처리를 간편하게 할 수 있도록 도와주는 객체, 2개의 콜백함수(resolve, reject) 전달<br>=> 주로 서버에서 받아온 데이터를 화면에 표시할 때 사용 <br>=> 데이터를 다 받아오기도 전에 화면에 표시하려고 하면 에러 발생하는데, 이 문제를 해결하고자 사용<br>=>Promise.resolve, Promise.reject를 무조건 반환해줘야 함</p>
         <h5 :style="attrOfDesc.h5.style">*비동기 처리: 특정 코드의 실행이 완료될 때까지 기다리지 않고 다음 코드를 먼저 수행하는 자바스크립트의 특성</h5>
         <br>
         <h2>전체적인 흐름</h2>
@@ -101,6 +102,7 @@ getHen()
                 <pre>const promise = new Promise();</pre>
                 Promise() 메서드 호출 시, 2개의 콜백함수 호출 가능
                 <pre>new Promise((resolve, reject) => {})</pre>
+                <h5 :style="attrOfDesc.h5.style">*pending일 경우 다른 코드가 싱행되면 예상치 못한 결과를 초래할 수 있길 때문에 fulfilled상태가 될 때까지 기다렸다가 다음 코드 실행하는 것이 좋음(await사용)</h5><h5 :style="attrOfDesc.h5.style">*pending일 경우 아직 비동기 작업이 완료되지 않은 상태이므로 .then(), .catch()같은 콜백함수 처리 불가능</h5>
             </li>
             <li><h3>Fulfilled(Resolve)</h3>: 비동기 처리가 완료되어 결과 값을 반환한 상태
                 resolve를 실행하면 이행/완료 상태 => then()을 이용해 처리 결과 값 받을 수 있음
@@ -204,7 +206,7 @@ getHen()
     <div>
         <h2>Promise API의 정적 메서드</h2>
         <ol>
-            <li>Promise.all: <br>여러 개의 Promise들을 병렬적(비동기적)으로 실행하여 처리<pre>const promise = Promise.all([/*처리할 Promise들*/])</pre>  <br>- 여러 개의 Promise들 중 하나라도 reject를 반환하거나 에러가 날 경우, 모든 Promise들을 reject시킴<br>- 배열 안 promise가 모두 처리되면, 배열 안 promise의 결과값을 담은 배열이 새로운 Promise의 result됨<br>=> 각 Promise의 처리 순서를 보장하되, 결과를 하나의 배열로 저장하고 싶을 때 사용
+            <li>Promise.all: <br><span :style="attrOfDesc.p.style">여러 개의 Promise들을 병렬적(비동기적)으로 실행하여 처리</span><pre>const promise = Promise.all([/*처리할 Promise들*/])</pre>  <br>- 여러 개의 Promise들 중 하나라도 reject를 반환하거나 에러가 날 경우, 모든 Promise들을 reject시킴<br>- 배열 안 promise가 모두 처리되면, 배열 안 promise의 결과값을 담은 배열이 새로운 Promise의 result됨<br>=> 각 Promise의 처리 순서를 보장하되, 결과를 하나의 배열로 저장하고 싶을 때 사용
             <pre>
 Promise.all([
   new Promise(resolve => setTimeout(()=> resolve(1),3000)), 
@@ -219,16 +221,16 @@ Promise.all([
                 
             </li>
             <br>
-            <li>Promise.allSettled: <br>모든 Promise가 처리될 때까지 기다리고, 반환되는 배열은 다음과 같은 요소를 가짐(응답이 성공/실패(에러)일 경우일 수 있음=> 각 Promise의 상태, 값 또는 에러 받을 수 있음)<pre>응답이 성공할 경우 – {status:"fulfilled", value:result}
+            <li>Promise.allSettled: <br><span :style="attrOfDesc.p.style">모든 Promise가 처리될 때까지 기다리고, 반환되는 배열은 응답이 성공/에러일 경우일 수 있음</span><br>=> 각 Promise의 상태, 값 또는 에러 받을 수 있음<pre>응답이 성공할 경우 – {status:"fulfilled", value:result}
 에러가 발생한 경우 – {status:"rejected", reason:error}</pre><br>- 스펙에 추가된지 얼마 안 된 문법, 구식 브라우저는 폴리필 필요 <h5>*폴리필(polyfill): 기본적으로 지원하지 않는 이전 브라우저에서 최신 기능을 제공하는데 필요한 코드</h5>
             </li>
             <br>
 
-            <li>Promise.race: <pre>const promise = Promise.race([/*처리할 Promise들*/])</pre></li>
-            <br>배열에 전달된 Promise들 중 가장 먼저 처리되는 Promise의 결과(성공/에러) 반환
+            <li>Promise.race: <br><span :style="attrOfDesc.p.style">배열에 전달된 Promise들 중 가장 먼저 처리되는 Promise의 결과(성공/에러) 반환</span><pre>const promise = Promise.race([/*처리할 Promise들*/])</pre></li>
+            
             <br><br>
 
-            <li>Promise.resolve/Promise.reject:<br>- async/await문법이 생긴 후 필요없어졌지만 사용하는 편이 일관성과 안정성을 유지하는 데 좋은 방법<pre>const promise = new Promise((resolve, reject) => {
+            <li>Promise.resolve/Promise.reject:<br>- async/await문법이 생긴 후 필요없어졌지만 사용하는 편이 일관성과 안정성을 유지하는 데 좋음<pre>const promise = new Promise((resolve, reject) => {
                     resolve(1) 
                     //reject(new Error('no network'))
 })</pre><br><pre>async function pickFruitsAsync() {

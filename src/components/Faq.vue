@@ -82,12 +82,7 @@ const items= reactive([ // reactive 사용할 때는 타입을 명시해주지 �
         panelItem: '>>공통점: 객체의 타입 이름 지정<br>>>Type의 특징 : 특수문자&으로 확장, 선언적 확장X <br>>>Interface의 특징 : extends로 확장 및 선언적 확장, 객체에만 사용 가능 <br>*TypeScipt팀은 Interface사용을 권장하고, 합(|) 타입 혹은 튜플 타입을 반드시 써야되는 상황이면 Type 사용을 권함<br>',
         activePanels: false,
     },
-    {
-        id:2,
-        title: 'Async-Await',
-        panelItem: '>>JS에서 사용하는 비동기 처리 패턴, Promise를 간소화한 형태<br>>> async함수는 비동기 작업을 수행하고, 해당 함수 안에서 await 키워드를 만나면 해당하는 프로미스가 처리될 때까지 현재 실행 중인 함수의 실행을 일시 중지하고, 그 사이에 다른 작업 처리<br> *동기적이란 말은 코드의 실행이 일시 중지되어 다른 작업을 처리할 수 없는 상태, await키워드를 통해 실행이 일시 중지된 것은 JS엔진은 다른 작업을 처리할 수 있는 상태',
-        activePanels: false
-    },
+    
     {
         id:3,
         title: 'HTMLCollection과 NodeList의 주요 차이점',

@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-// then, catch 사용 가능한지 확인 => Promise객체에서 사용
+// Promise객체를 핸들링하기 위해서 then, catch를 필수로 사용해야함
 // async await사용하려면 Promise타입으로 지정해줘야 함(반환 자체를 Promise타입으로 하기 때문)
-// then catch는 비동기를 위해서 만들어짐, try catch는 동기, 비동기 둘 다 지원 
+// then catch는 비동기를 위해서 만들어짐, try catch는 동기, 비동기 둘 다 지원(하지만 catch블록에서 반환하는 것은 Promise객체-rejected) 
 // export async function fetchData():Promise<any[]> {
 //     try {
 //         // const response = await axios.get('https://reqres.in/api/users?page=2'); 이런식으로 https:// ~ api까지는 같을테니 baseUrl로 가져가는 거
