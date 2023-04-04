@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// TODO: then, catch 사용 가능한지 확인
-// async await사용하려면 Promise타입으로 지정해줘야 함
+// then, catch 사용 가능한지 확인 => Promise객체에서 사용
+// async await사용하려면 Promise타입으로 지정해줘야 함(반환 자체를 Promise타입으로 하기 때문)
 // then catch는 비동기를 위해서 만들어짐, try catch는 동기, 비동기 둘 다 지원 
 // export async function fetchData():Promise<any[]> {
 //     try {
