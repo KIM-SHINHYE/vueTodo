@@ -25,8 +25,8 @@ async function getBanana() {
 
 async function pickFurits() {
     try{
-        const apple =   getApple();
-        const banana =   getBanana();
+        const apple = await getApple();
+        const banana = await getBanana();
         // await가 붙으면 Promise객체 안에 있는 실제 값인 PromiseResult(🍎, 🍌)를 반환, await가 붙지 않으면 PromiseResult를 포함하는 Promise객체 자체를 반환
         // await를 사용하면 비동기 작업을 동기적으로 처리하는 것처럼 보이지만, await가 호출되면 이후의 코드는 비동기적으로 실행되며, await가 반환한 값을 가지고 새로운 promise객체를 생성하여 이후의 코드에서 사용
         console.log('apple:', apple);

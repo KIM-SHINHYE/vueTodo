@@ -58,8 +58,8 @@ const getHen = () =>
     });
 const getEgg = (hen:any) => 
     new Promise((resolve, reject) => {
-        setTimeout(() => resolve(`${hen} => 🥚`), 1000);
-        // setTimeout(() => reject(new Error(`error! ${hen} => 🥚`)), 1000);
+        // setTimeout(() => resolve(`${hen} => 🥚`), 1000);
+        setTimeout(() => reject(new Error(`error! ${hen} => 🥚`)), 1000);
     });
 const cook = (egg:any) => 
     new Promise((resolve, reject) => {
@@ -70,11 +70,12 @@ const cook = (egg:any) =>
 getHen()
     .then(getEgg)
     .catch(error => {
-        return '🥐'; // 여기서 egg를 못받아 와서 error가 아닌 bread로 바꿔서 return해줌
+        console.log('1111',error);
+        return Promise.resolve('🥐'); // 여기서 egg를 못받아 와서 error가 아닌 bread로 바꿔서 return해줌
     })
     .then(cook)
     .then(console.log)
-    .catch(console.log)
+    // .catch(console.log)
 
 // function delay(ms:number){
 // return new Promise(resolve => setTimeout(resolve, ms));
@@ -101,12 +102,30 @@ getHen()
 // }
 // pickOnlyOne().then(console.log)
 
+Promise.all([
+    new Promise(resolve => setTimeout(()=> resolve(1),3000)), 
+    // 3초 뒤 1
+    new Promise(resolve => setTimeout(()=> resolve(2),2000)), 
+    // 2초 뒤 2
+    new Promise(resolve => setTimeout(()=> resolve(3),1000))  
+    // 1초 뒤 3
+]).then((result)=>console.log('Promise.all: ', result)); 
+
+Promise.race([
+    new Promise(resolve => setTimeout(()=> resolve(1),3000)), 
+    // 3초 뒤 1
+    new Promise(resolve => setTimeout(()=> resolve(2),2000)), 
+    // 2초 뒤 2
+    new Promise(resolve => setTimeout(()=> resolve(3),1000))  
+    // 1초 뒤 3
+]).then((result) => console.log('Promise.race: ', result)); // 3
+
 </script>
     
 <template>
     <div>
         <h1>Promise</h1>
-        <p :style="attrOfDesc.p.style">Javascript의 비동기 처리를 간편하게 할 수 있도록 도와주는 객체, 2개의 콜백함수(resolve, reject) 전달<br>=> 주로 서버에서 받아온 데이터를 화면에 표시할 때 사용 <br>=> 데이터를 다 받아오기도 전에 화면에 표시하려고 하면 에러 발생하는데, 이 문제를 해결하고자 사용<br>=>Promise.resolve, Promise.reject를 무조건 반환해줘야 함</p>
+        <p :style="attrOfDesc.p.style">Javascript의 비동기 처리를 간편하게 할 수 있도록 도와주는 객체, 2개의 콜백함수(resolve, reject) 전달<br>=> 주로 서버에서 받아온 데이터를 화면에 표시할 때 사용 <br>=> 데이터를 다 받아오기도 전에 화면에 표시하려고 하면 에러 발생하는데, 이 문제를 해결하고자 사용<br>=>promise객체를 생성하고 나서는 resolve, reject함수를 이용해 반환하지 않으면 계속 pending상태기이 때문에 resolve, reject함수를 반환해줘야 함</p>
         <h5 :style="attrOfDesc.h5.style">*비동기 처리: 특정 코드의 실행이 완료될 때까지 기다리지 않고 다음 코드를 먼저 수행하는 자바스크립트의 특성</h5>
         <br>
         <h2>전체적인 흐름</h2>
@@ -126,7 +145,7 @@ getHen()
             <li><h3>Pending</h3>: 비동기 처리 로직이 아직 완료되지 않은 상태
                 <pre>const promise = new Promise();</pre>
                 Promise() 메서드 호출 시, 2개의 콜백함수 호출 가능
-                <pre>new Promise((resolve, reject) => {})</pre>
+                <pre>new Promise((resolve, reject) => {}) // 아직 어떤 값도 반환하지 않은 상태</pre>
                 <h5 :style="attrOfDesc.h5.style">*pending일 경우 다른 코드가 싱행되면 예상치 못한 결과를 초래할 수 있길 때문에 fulfilled상태가 될 때까지 기다렸다가 다음 코드 실행하는 것이 좋음(async이용시 await사용)</h5><h5 :style="attrOfDesc.h5.style">*pending일 경우 아직 비동기 작업이 완료되지 않은 상태이므로 .then(), .catch()같은 콜백함수 처리 불가능(사용은 가능하지만 정상작동 되지X)</h5>
             </li>
             <li><h3>Fulfilled(Resolve)</h3>: 비동기 처리가 완료되어 결과 값(성공)을 반환한 상태
@@ -208,8 +227,7 @@ const getHen = () =>
     });
 const getEgg = hen => 
     new Promise((resolve, reject) => {
-        setTimeout(() => resolve(`${hen} => 🥚`), 1000);
-        // setTimeout(() => reject(new Error(`error! ${hen} => 🥚`)), 1000);
+        setTimeout(() => reject(new Error(`error! ${hen} => 🥚`)), 1000);
     });
 const cook = egg => 
     new Promise((resolve, reject) => {
@@ -220,10 +238,11 @@ const cook = egg =>
 getHen()
     .then(getEgg)
     .catch(error => {
-        return '🥐'; // 여기서 egg를 못받아 와서 error가 아닌 bread로 바꿔서 return해줌
+        return '🥐'; // 여기서 egg를 못받아 와서 error가 아닌 bread로 바꿔서 return해줌 
     })
     .then(cook)
-    .then(console.log) // 🐓 => 🥚 => 🍳
+    .then(console.log) 
+        // 성공일 경우: 🐓 => 🥚 => 🍳, 에러일 경우: 🥐 => 🍳
     .catch(console.log)
         </pre>
     </div>
@@ -231,7 +250,7 @@ getHen()
     <div>
         <h2>Promise API의 정적 메서드</h2>
         <ol>
-            <li>Promise.all: <br><span :style="attrOfDesc.p.style">여러 개의 Promise들을 병렬적(비동기적)으로 실행하여 처리</span><pre>const promise = Promise.all([/*처리할 Promise들*/])</pre>  <br>- 여러 개의 Promise들 중 하나라도 reject를 반환하거나 에러가 날 경우, 모든 Promise들을 reject시킴<br>- 배열 안 promise가 모두 처리되면, 배열 안 promise의 결과값을 담은 배열이 새로운 Promise의 result됨<br>=><u> 각 Promise의 처리 순서를 보장하되, 결과를 하나의 배열로 저장하고 싶을 때 사용</u>
+            <li>Promise.all: <br><span :style="attrOfDesc.p.style">여러 개의 Promise들을 병렬적(비동기적)으로 실행하여 처리 <br>- 여러 개의 Promise들 중 하나라도 reject를 반환하거나 에러가 날 경우, 모든 Promise들을 reject시킴</span><pre>const promise = Promise.all([/*처리할 Promise들*/])</pre>  <br>- 배열 안 promise가 모두 처리되면, 배열 안 promise의 결과값을 담은 배열이 새로운 Promise의 result됨<br>=><u> 각 Promise의 처리 순서를 보장하되, 결과를 하나의 배열로 저장하고 싶을 때 사용</u>
             <pre>
 Promise.all([
   new Promise(resolve => setTimeout(()=> resolve(1),3000)), 

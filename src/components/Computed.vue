@@ -70,13 +70,13 @@ const isLengthValid = computed({
         <div>
             <div>
                 <h1>1. Computed란?</h1>
-                <h5 :="subTitleAttr">: 템플릿(이중괄호)의 데이터 표현에 반응형 데이터를 포함하거나 복잡한 논리의 경우 데이터를 더 직관적이고 간결하게 도와주는 속성 <br>즉, <u><br>=> 뷰 템플릿 코드의 가독성도 높여주고, computed 속성의 대상으로 정한 data 속성이 변경했을 때, 이를 감지하고 자동으로 다시 연산</u></h5>
+                <h5 :="subTitleAttr">: 템플릿(이중괄호)의 데이터 표현에 반응형 데이터를 포함하거나 복잡한 논리의 경우 데이터를 더 직관적이고 간결하게 도와주는 속성 <br>즉, <u><br>=> 뷰 템플릿 코드의 가독성도 높여주고, computed 속성의 대상으로 정한 data 속성이 변경했을 때, 이를 감지하고 자동으로 다시 연산</u><br>=> computed를 통해 반환된 값은 읽기 전용으로 처리되어야 하며 변경되지 않아야 함</h5>
             </div>
             <br>
             <div>
                 <h1>2. 사용법</h1>
                 <ol>
-                    <li>따로 선언하지 않으면 getter</li>
+                    <li>따로 선언하지 않으면 getter: 오로지 계산만 수행해야 함</li>
                     <br>
                     <div>
                         <h5 style="color:yellow">getter 사용 예제</h5>
@@ -86,7 +86,7 @@ const isLengthValid = computed({
                         <p>UserList : {{ userList }} => computed로 바라보고 있는 값(userList.value.length)</p>
                     </div>
                     <br>
-                    <li>
+                    <li> get(), set()
                         <br>
                         <ul>
                             <li>get(): 계산형 데이터 속성이 계산되는 방식 정의 => 계산형 데이터 속성을 사용할 때마다 실행</li>
@@ -116,7 +116,7 @@ const isLengthValid = computed({
                             <!-- v-model로 연결되는 데이터들은 대부분 input, textarea 등에 들어가는 값은 string형태, 따라서 boolean형태로 바인딩하는 건 ㄴㄴ  -->
                             <input type="text" v-model="inputText"><br>문자열 길이 : {{ inputText.length }}<br>
                             문자열 길이가 10을 넘는지(이하, 초과) : {{ isLengthValid }} => isLengthValid <br>
-                            <input type="boolean" v-model="isLengthValid"> <br>isLengthValid : {{  }}<br>
+                            <input type="boolean" v-model="isLengthValid"><br>
                         </div>
                     </div>
                 </ol>
