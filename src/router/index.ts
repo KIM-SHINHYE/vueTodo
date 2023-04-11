@@ -132,7 +132,7 @@ const router = createRouter({
     },
     {
       path: '/openapi',
-      name: 'openApi',
+      name: 'openapi',
       component: () => import('@/views/OpenApiListView.vue')
     }
   ]
