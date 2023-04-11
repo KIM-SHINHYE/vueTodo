@@ -129,6 +129,11 @@ const router = createRouter({
       path: '/async-await',
       name: 'async-await',
       component: () => import('@/views/AsyncAwaitView.vue')
+    },
+    {
+      path: '/openapi',
+      name: 'openApi',
+      component: () => import('@/views/OpenApiListView.vue')
     }
   ]
 })
