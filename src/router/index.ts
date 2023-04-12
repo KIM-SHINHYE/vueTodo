@@ -134,6 +134,11 @@ const router = createRouter({
       path: '/openapi',
       name: 'openapi',
       component: () => import('@/views/OpenApiListView.vue')
+    },
+    {
+      path: '/quasar',
+      name: 'quasar',
+      component: () => import('@/views/QuasarView.vue')
     }
   ]
 })

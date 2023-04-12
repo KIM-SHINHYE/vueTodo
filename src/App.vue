@@ -26,6 +26,8 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/promise">promise</RouterLink>
         <RouterLink to="/async-await">async-await</RouterLink>
         <RouterLink to="/openapi">open Api List</RouterLink>
+        <RouterLink to="/quasar">quasar</RouterLink>
+
         <RouterLink to="/faq">FAQ</RouterLink>
         <!-- url은 전부 소문자로 써주기(to) -->
       </nav>
