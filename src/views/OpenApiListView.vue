@@ -237,6 +237,9 @@ const processData = async () => {
     } else if(swaggerJson) {
       console.log('swaggerJson 존재');
       const swaggerJsonData = JSON.parse(swaggerJson);
+      // 객체 속성에 접근하는 방법 2가지
+      // swaggerJsonData['basePath'] : 프로퍼티 이름을 문자열로 지정할 수 있기 때문에 변수를 사용하여 동적으로 프로퍼티에 접근 가능
+      // swaggerJsonData.basePath : 프로퍼티 이름에 유효한 식별자만 사용 가능하므로 프로퍼티 이름이 유효한 식별자이고, 동적으로 접근할 필요가 없을 경우 사용
       apiList.value.basePath = swaggerJsonData['basePath'];
       apiList.value.host = swaggerJsonData['host'];
       apiList.value.info = swaggerJsonData['info'];
