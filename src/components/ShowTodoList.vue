@@ -28,7 +28,8 @@ let orderedTodoList: Todo[] = todoStore.todoList.sort((a,b) => a.priority - b.pr
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(todo, idx) in orderedTodoList" :key="idx"> <!-- :key는 웬만하면 써주는 편이 좋다-->
+      <tr v-for="(todo, idx) in orderedTodoList" :key="idx"> 
+        <!-- :key는 웬만하면 써주는 편이 좋다 -->
         <td>{{ idx+1 }}</td>
         <td>{{ todo.title }}</td>
         <td>{{ todo.content }}</td>

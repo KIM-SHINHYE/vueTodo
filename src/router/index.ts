@@ -139,6 +139,11 @@ const router = createRouter({
       path: '/quasar',
       name: 'quasar',
       component: () => import('@/views/QuasarView.vue')
+    },
+    {
+      path: '/newtodo',
+      name: 'newtodo',
+      component: () => import('@/views/NewTodoView.vue')
     }
   ]
 })
