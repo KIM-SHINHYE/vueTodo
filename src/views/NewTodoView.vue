@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NewInputTodo from '@/components/NewInputTodo.vue';
 import NewShowTodoList from '@/components/NewShowTodoList.vue'
+import NewDeleteTodoAll from '@/components/NewDeleteTodoAll.vue';
 </script>
 <template>
     <div id="todo-container">
@@ -8,5 +9,7 @@ import NewShowTodoList from '@/components/NewShowTodoList.vue'
         <NewInputTodo/>
         <br>
         <NewShowTodoList/>
+        <br>
+        <NewDeleteTodoAll/>
     </div>
 </template>

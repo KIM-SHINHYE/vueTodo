@@ -6,7 +6,10 @@ const useStore = todoStore();
 let inputText:Ref<string> = ref('');
 
 const addTodo = (input: string) => {
-  useStore.addTodo(input);
+  if(input != ''){
+
+    useStore.addTodo(input);
+  }
   inputText.value = '';
   console.log('input:::::::', useStore.todoList);
 }
