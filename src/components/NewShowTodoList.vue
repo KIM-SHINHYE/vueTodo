@@ -1,45 +1,37 @@
 <script setup lang="ts">
 import { todoStore } from '@/stores/newtodo';
-import { watch } from 'vue';
+
+type Todo = {
+  title: string,
+  completed: boolean ,
+}
 
 const useStore = todoStore();
 
-// watch(
-//   useStore.todoList,
-//   (val)=>{
-//     setTimeout(() => {
-//       document.getElementById(`todo_item_${val.length-1}`)?.classList.remove('li-before')
-//     }, 0);
-// })
-
-// function deleteTodo(idx:number) {
-//   // 지울 때 idx를 보고 지우기 때문에 다음 배열 요소 값에서는 해당 클래스가 지워진 상태, 그래서 다시 더해주는 거
-//     document.getElementById(`todo_item_${idx}`)?.classList.add('li-before')
-//     setTimeout(() => {
-//       useStore.deleteTodo(idx)
-//       document.getElementById(`todo_item_${idx}`)?.classList.remove('li-active')
-//       document.getElementById(`todo_item_${idx}`)?.classList.remove('li-before')
-//     }, 300);
-//       document.getElementById(`todo_item_${idx}`)?.classList.add('li-active')
-// }
+const todoList:Todo[] = useStore.todoList;
 
 function deleteTodo(idx:number){ 
   useStore.deleteTodo(idx)
 }
 
+
+const isDone = (todo:Todo) => {
+  todo.completed = !todo.completed;
+}
 </script>
 
 <template>
   <!-- v-for 디렉티브는 반복되는 요소를 나타내기 위해 사용되므로, 직접적으로 반복되는 요소를 포함하고 있는 요소에 적용해야 함 -->
-  <!-- <ul>
-    <li v-for="(todo, idx) in useStore.todoList" :key="idx" :id="`todo_item_${idx}`" class="li-text li-before li-active" >{{ todo }}
-      <button class="delete-btn" @click="deleteTodo(idx)">-</button>
-    </li>  
-  </ul> -->
+  <!-- 여기서 왜 v-if하면 값이 안나오냐고 (v-show + title != ''일경우만 나옴)-->
   <transition-group name="todoList" tag="ul" class="container">
-    <li v-for="(todo, idx) in useStore.todoList" :key="idx" :id="`todo_item_${idx}`" class="li-text">{{ todo }}
+    <div v-for="(todo, idx) in todoList" v-show="todo.title != ''"  :key="idx" :id="`todo_item_${idx}`"  class="li-text" >
+      <!-- 텍스트를 label for로 감싸줘야 텍스트를 눌러도 선택됨(대신 이때 for 안써줘도 먹힘), 여기서 v-for사용하기 때문에 오히려 라벨에 이름을 쓰면 적용안됨 -->
+      
+      <label >
+      <input type="checkbox" class="li-checkbox-input" @click="isDone(todo)"><span :style="{'text-decoration' : todo.completed ? 'line-through' : 'none'}">{{ todo.title }}</span>
+      </label>
       <button class="delete-btn" @click="deleteTodo(idx)">-</button>
-    </li>  
+    </div>  
   </transition-group>
 </template>
 
@@ -65,6 +57,10 @@ function deleteTodo(idx:number){
   left:0%;
 }
 
+.li-checkbox-input {
+  margin-right: 10px;
+}
+
 .todoList-move,
 .todoList-enter-active,
 .todoList-leave-active {
@@ -74,8 +70,7 @@ function deleteTodo(idx:number){
 .todoList-enter-from,
 .todoList-leave-to {
   opacity: 0;
-  /* transform: translateX(30px); */
-  transform: translate(30px, 0) scaleX(10.01);
+  transform: translateX(30px);
 }
 
 .todoList-leave-active {

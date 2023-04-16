@@ -9,13 +9,13 @@ const deleteAll = () => {
 
 // getter 적용
 const todoListLen = computed(() => {
-    return useStore.todoList.length != 0;
+    return useStore.todoList.filter((todo) => todo.title != '').length != 0;
 })
 
 </script>
 <template>
     <div id="del-container">
-        <button id="delete-btn" class="btn-before btn-active" @click="deleteAll" v-if="todoListLen">CLEAR ALL</button>
+        <button id="delete-btn"  @click="deleteAll" v-if="todoListLen">CLEAR ALL</button>
     </div>
 
 </template>
@@ -28,17 +28,12 @@ const todoListLen = computed(() => {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    transition: all 0.3s ease-out; 
 }
 #del-container {
     display: flex;
     justify-content: center;
 }
 
-.btn-before {
-    left:100%
-}
-
-.btn-active {
-    transition: all 0.3s ease-in-out; 
-}
 </style>

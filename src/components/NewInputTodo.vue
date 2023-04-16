@@ -2,16 +2,27 @@
 import { ref, type Ref } from 'vue';
 import { todoStore } from '@/stores/newtodo'
 
+type Todo = {
+  title: string, 
+  completed: boolean,
+  deleted: boolean
+}
+
 const useStore = todoStore();
 let inputText:Ref<string> = ref('');
+let todo:Todo = {
+  title: '',
+  completed: false,
+  deleted: false
+}; 
 
 const addTodo = (input: string) => {
   if(input != ''){
+    todo.title = input;
 
-    useStore.addTodo(input);
+    useStore.addTodo(todo);
   }
   inputText.value = '';
-  console.log('input:::::::', useStore.todoList);
 }
 
 </script>
