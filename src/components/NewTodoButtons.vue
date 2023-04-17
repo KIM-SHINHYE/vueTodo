@@ -13,9 +13,14 @@ const deleteAll = () => {
     useStore.deleteTodoListAll();    
 }
 
-const clickedBtn = (state:string) => {
-    useStore.changeState(state);
-    console.log('useStore.clickstate', useStore.clickstate)
+const clickedBtn = () => {
+    if( useStore.clickstate==btnState.ALL){
+        useStore.changeState(btnState.COMPLETED);
+    } else if( useStore.clickstate==btnState.COMPLETED){
+        useStore.changeState(btnState.UNCOMPLETED);
+    }else{
+        useStore.changeState(btnState.ALL);
+    }
 }
 
 
@@ -27,9 +32,9 @@ const todoListLen = computed(() => {
 </script>
 <template>
     <div id="btn-container">
-        <button id="all-btn" class="btn" @click="clickedBtn(btnState.ALL)" >전체 보기</button>
-        <button id="uncompleted-btn" class="btn" @click="clickedBtn(btnState.UNCOMPLETED)" >해야할 일</button>
-        <button id="completed-btn" class="btn" @click="clickedBtn(btnState.COMPLETED)" >완료한 일</button>
+        <button id="all-btn" class="btn" @click="clickedBtn()" >
+        {{ useStore.clickstate==btnState.ALL? '완료한 일': useStore.clickstate==btnState.COMPLETED?"해야 할 일":"전체 보기"}}</button>
+
         <button id="delete-btn" class="btn"  @click="deleteAll" v-if="todoListLen">전체 삭제</button>
     </div>
 
