@@ -1,17 +1,12 @@
 import { defineStore } from "pinia";
-import { computed, ref, type Ref } from "vue";
+import { ref, type Ref } from "vue";
+import { btnState } from '@/types/newtodoTypes'
 
 type Todo ={
-
     title: string,
     completed: boolean
 }
 
-enum btnState {
-    ALL = 'SHOW ALL',
-    COMPLETED = 'COMPLETED',
-    UNCOMPLETED = 'UNCOMPLETED'
-}
 
 
 export const todoStore = defineStore('todoStore', () => {
@@ -40,62 +35,32 @@ export const todoStore = defineStore('todoStore', () => {
     }
 
     const filteredList = (state:string) => {
-        // console.log('filteredList')
-        // console.log('state', state)
-        // console.log('clickstate', clickstate.value)
         let changeList:Todo[] = [];
 
 
-        if(state === 'COMPLETED'){
+        if(state === btnState.COMPLETED){
             changeList = todoList.value.filter((todo) => todo.completed);
         } 
-        else if(state ==='UNCOMPLETED') {
+        else if(state === btnState.UNCOMPLETED) {
             changeList = todoList.value.filter((todo) => !todo.completed);
         }
-        else if(state ==='SHOW ALL'){
+        else if(state === btnState.ALL){
             changeList = todoList.value;
         }
         return changeList;
     }
 
     const changeState = (state:string) => {
-        if(state === 'COMPLETED'){
-            clickstate.value = 'COMPLETED'
+        if(state === btnState.COMPLETED){
+            clickstate.value = btnState.COMPLETED
         } 
-        else if(state ==='UNCOMPLETED') {
-            clickstate.value = 'UNCOMPLETED'
+        else if(state === btnState.UNCOMPLETED) {
+            clickstate.value = btnState.UNCOMPLETED
         }
-        else if(state ==='SHOW ALL'){
-            clickstate.value = 'SHOW ALL'
+        else if(state === btnState.ALL){
+            clickstate.value = btnState.ALL
         }
     }
-
-    // const chageState = () => {
-    //     // 처음엔 uncompleted상태여도 보여줘야되는데 버튼은 completed로 보여주고
-    //     clickstate.value = clickstate.value === 'COMPLETED' ? 'UNCOMPLETED' : (clickstate.value === 'UNCOMPLETED' ? 'SHOW ALL': 'COMPLETED' );
-
-    //     if(clickstate.value === 'COMPLETED'){
-    //         changeList.value = todoList.value.filter((todo) => todo.completed)
-    //         console.log('여기가 컴플릿')
-    //     console.log('changeList', changeList.value)
-    //     console.log('todoList', todoList.value)
-
-    //     } else if(clickstate.value === 'UNCOMPLETED'){
-    //         changeList.value = todoList.value.filter((todo) => !todo.completed)
-    //         console.log('여기가 언컴플릿')
-    //     console.log('changeList', changeList.value)
-    //     console.log('todoList', todoList.value)
-
-
-    //     } else {
-    //         changeList.value = todoList.value
-    //         console.log('여기가 전체')
-    //     console.log('changeList', changeList.value)
-    //     console.log('todoList', todoList.value)
-
-
-    //     }
-    // }
 
     return {todoList, clickstate, addTodo, deleteTodo, deleteTodoListAll, filteredList, changeState}
 })
