@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { todoStore } from '@/stores/newtodo';
+import { ref, watch, type Ref, computed } from 'vue';
 
 type Todo = {
   title: string,
@@ -8,12 +9,33 @@ type Todo = {
 
 const useStore = todoStore();
 
-const todoList:Todo[] = useStore.todoList;
+// const completedTodo = (state:string) => {
+//         // console.log('store clickstate.value', useStore.clickstate);
+//         // console.log('store state', state)
+//         if(state === 'COMPLETED'){
+//           useStore.todoList.filter((todo) => todo.completed)
+//           console.log(useStore.todoList.filter((todo) => todo.completed))
+//             console.log('여기가 컴플릿')
+
+//         } else if(state === 'UNCOMPLETED'){
+//           useStore.todoList.filter((todo) => !todo.completed)
+//             console.log('여기가 언컴플릿')
+
+//         } else {
+//           useStore.todoList
+//             console.log('여기가 전체')
+
+
+//         }
+//     }
+
+// completedTodo(useStore.clickstate);
+// 만약 이런 식으로 감싸게 되면 순간의 useStore.todoList값을 가져오고 사용하는 것이므로 useStore에서 바로 꺼내서 사용해야 함
+// const todoList:Ref<Todo[]> = ref(useStore.todoList);
 
 function deleteTodo(idx:number){ 
   useStore.deleteTodo(idx)
 }
-
 
 const isDone = (todo:Todo) => {
   todo.completed = !todo.completed;
@@ -24,13 +46,20 @@ const isDone = (todo:Todo) => {
   <!-- v-for 디렉티브는 반복되는 요소를 나타내기 위해 사용되므로, 직접적으로 반복되는 요소를 포함하고 있는 요소에 적용해야 함 -->
   <!-- 여기서 왜 v-if하면 값이 안나오냐고 (v-show + title != ''일경우만 나옴)-->
   <transition-group name="todoList" tag="ul" class="container">
-    <div v-for="(todo, idx) in todoList" v-show="todo.title != ''"  :key="idx" :id="`todo_item_${idx}`"  class="li-text" >
+    <div v-for="(todo, idx) in useStore.filteredList(useStore.clickstate)" v-show="todo.title != ''"  :key="idx" :id="`todo_item_${idx}`"  class="li-text" >
       <!-- 텍스트를 label for로 감싸줘야 텍스트를 눌러도 선택됨(대신 이때 for 안써줘도 먹힘), 여기서 v-for사용하기 때문에 오히려 라벨에 이름을 쓰면 적용안됨 -->
-      
-      <label >
-      <input type="checkbox" class="li-checkbox-input" @click="isDone(todo)"><span :style="{'text-decoration' : todo.completed ? 'line-through' : 'none'}">{{ todo.title }}</span>
-      </label>
-      <button class="delete-btn" @click="deleteTodo(idx)">-</button>
+      <!-- <div v-if="todo.completed? todo.completed:todo.completed"> -->
+
+        <label >
+        <input type="checkbox" v-model="todo.completed" class="li-checkbox-input" @click="isDone(todo)"><span :style="{'text-decoration' : todo.completed ? 'line-through' : 'none'}">{{ todo.title }}</span>
+        </label>
+        <span >
+          <i class="fas fa-trash-alt delete-btn" @click="deleteTodo(idx)"></i>
+        </span>
+        <!-- {{ useStore.clickstate }}
+        {{ useStore.todoList.filter((todo) => !todo.completed) }}
+        ::: {{ completedTodo(useStore.clickstate) }} ::: -->
+      <!-- </div> -->
     </div>  
   </transition-group>
 </template>
@@ -98,6 +127,9 @@ ul{
   width: 10%;
   border: none;
   color: red;
-  font-size: 40px;
+  font-size: 20px;
+  padding-top: 15px;
+  padding-left: 17px;
+  background-color: #efefef;
 }
 </style>
