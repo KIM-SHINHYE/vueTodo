@@ -144,6 +144,32 @@ const router = createRouter({
       path: '/newtodo',
       name: 'newtodo',
       component: () => import('@/views/NewTodoView.vue')
+    },
+    {
+      path: '/board',
+      name: 'board',
+      children: [
+        {
+          path: 'detail',
+          name: 'board-detail',
+          component: () => import('@/views/board/BoardListDetailView.vue'),
+        },
+        {
+          path: 'list',
+          name: 'board-list',
+          component: () => import('@/views/board/BoardListView.vue'),
+        },
+        {
+          path: 'register',
+          name: 'board-register',
+          component: () => import('@/views/board/BoardRegEditView.vue'),
+        },
+        {
+          path: 'edit',
+          name: 'board-edit',
+          component: () => import('@/views/board/BoardRegEditView.vue'),
+        }
+      ]
     }
   ]
 })

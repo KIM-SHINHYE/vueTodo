@@ -28,6 +28,8 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/openapi">open Api List</RouterLink>
         <RouterLink to="/quasar">quasar</RouterLink>
         <RouterLink to="/newtodo">New-Todo</RouterLink>
+        <RouterLink to="/board/list">board</RouterLink>
+
 
 
         <RouterLink to="/faq">FAQ</RouterLink>
