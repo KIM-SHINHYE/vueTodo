@@ -17,10 +17,6 @@ function deleteTodo(idx:number){
   useStore.deleteTodo(idx)
 }
 
-const isDone = (todo:Todo) => {
-  todo.completed = !todo.completed;
-}
-
 const todoState = computed(() => {
   return useStore.clickstate == btnState.ALL? '전체 보기': useStore.clickstate == btnState.COMPLETED? "완료한 일" : "해야할 일"
 })
@@ -36,7 +32,7 @@ const todoState = computed(() => {
       <!-- <div v-if="todo.completed? todo.completed:todo.completed"> -->
 
         <label >
-        <input type="checkbox" v-model="todo.completed" class="li-checkbox-input" @click="isDone(todo)"><span :style="{'text-decoration' : todo.completed ? 'line-through' : 'none'}">{{ todo.title }}</span>
+        <input type="checkbox" v-model="todo.completed" class="li-checkbox-input" ><span :style="{'text-decoration' : todo.completed ? 'line-through' : 'none'}">{{ todo.title }}</span>
         </label>
         <span >
           <i class="fas fa-trash-alt delete-btn" @click="deleteTodo(idx)"></i>
