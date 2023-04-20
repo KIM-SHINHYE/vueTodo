@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { ref, type Ref } from 'vue'
+import { onMounted, ref, type Ref } from 'vue'
 
 type Content = {
   id: number
   title: string
   content: string
   writer: string
-  regDate: Date
+  regDate: string
+}
+
+const dateFormat = (now: Date) => {
+  return now.getFullYear() + '-' + (now.getMonth()+1 < 9? '0'+ (now.getMonth()+1) : now.getMonth())  +'-' + (now.getDate() < 9? '0': now.getDate());
 }
 
 let content: Ref<Content> = ref({
@@ -14,42 +18,54 @@ let content: Ref<Content> = ref({
   title: '',
   content: '',
   writer: '',
-  regDate: new Date()
+  regDate: dateFormat(new Date())
 })
 
-let i:Ref<number> = ref(0)
 const registerBoard = (cont: Content) => {
-    // let i:Ref<number> = ref(localStorage.length== 0 ? 0) ;
-  console.log(cont)
-
-  console.log('iiii------',i);
-  cont.id = i.value
-  localStorage.setItem(`${i.value}`, JSON.stringify(cont));
+  let i:number = 0
+  let keyStrArr = Object.keys(localStorage);
+  if(keyStrArr.length !== 0) {
+    // string to num
+    let keyNumArr = keyStrArr.map(Number);
+    cont.id = i = Math.max(...keyNumArr) + 1;
+  } else {
+    cont.id = 0
+  }
+  
+  
+  localStorage.setItem(`${i}`, JSON.stringify(cont));
   content.value.title = ''
   content.value.content = ''
   content.value.writer = ''
-  i.value++;
+  i++;
+  
 
 }
+
+const focusNextInput = (nextRef:any) => {
+  nextRef.focus();
+}
+
 </script>
 
 <template>
+  <br>
   <div class="container">
     <div class="input-container">
       <h3>제목</h3>
-      <input type="text" class="input-text" v-model="content.title" />
+      <input ref="titleInput" @keyup.enter="focusNextInput($refs.contentInput)" type="text" class="input-text" v-model="content.title" />
     </div>
     <div class="input-container">
       <h3>내용</h3>
-      <input type="text" class="input-text" v-model="content.content" />
+      <input ref= "contentInput" @keyup.enter="focusNextInput($refs.writerInput)" type="text" class="input-text" v-model="content.content" />
     </div>
     <div class="input-container">
       <h3>작성자</h3>
-      <input type="text" class="input-text" v-model="content.writer" />
+      <input ref="writerInput" @keyup.enter="registerBoard(content); focusNextInput($refs.titleInput)" type="text" class="input-text" v-model="content.writer" />
     </div>
     <div class="btn">
       <button @click="$router.push({ name: 'board-list' })">이전</button>
-      <button @click="registerBoard(content)">등록</button>
+      <button @click="registerBoard(content); focusNextInput($refs.titleInput)">등록</button>
     </div>
   </div>
 </template>

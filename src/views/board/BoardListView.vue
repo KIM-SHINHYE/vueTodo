@@ -1,47 +1,67 @@
 <script setup lang="ts">
-import { type Ref, ref, onMounted } from 'vue';
+import { update } from 'lodash';
+import { type Ref, ref, computed, watch } from 'vue';
 
 type Content = {
+    id: number,
     title: string,
     content: string,
     writer: string,
     regDate: Date
 }
 
-let contentList:Ref<Content[]> = ref([]);
+const contents:Ref<Content[]> = ref([]);
 
+// const contentList = computed(() => {
+
+// })
 let length = localStorage.length;
+
+
+// watch(
+//   () => localStorage,
+
+//   ()=>{
+//       const updatedContents = [];
+
+//       for(let i = 0; i < localStorage.length ; i++){
+//         let strArr = localStorage.getItem(i.toString());
+//         if(strArr != null) {
+//           updatedContents.push(JSON.parse(strArr));
+//         }
+//       }
+//       contents.value = updatedContents;
+//     }
+// )
+
+
+// for(let i = 0; i < localStorage.length ; i++){
+//   let strArr = localStorage.getItem(i.toString());
+//   if(strArr != null) {
+//     contents.value.push(JSON.parse(strArr));
+//   }
+// }
+
+
 
 console.log(length)
 
-// onCreate(() => {
-//   for(let i = 0; i < localStorage.getItem.length; i++){
-//     console.log(localStorage.getItem(`${i}`))
-//   }
-  
-// })
-// onMounted(() => {
-//   for(let i = 0; i < localStorage.getItem.length; i++){
-//     let length = localStorage.getItem(`${i}`);
-//     console.log(localStorage.length);
-
-//     // console.log(i)
-//     // console.log(length)
-//     // console.log('onMounted')
-//   }
-// })
-
-const deleteContent = () => {}
+const deleteContent = (i:number) => {
+  console.log('delete');
+  localStorage.removeItem(i.toString());
+}
 
 </script>
 
 <template>
+  <br>
   <div>
     <table>
       <thead>
         <tr>
           <th>선택</th>
           <th>번호</th>
+          <th>id</th>
           <th>제목</th>
           <th>작성자</th>
           <th>작성일</th>
@@ -49,15 +69,16 @@ const deleteContent = () => {}
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="(content, idx) in contents" :key="idx">
           <td><input type="checkbox" /></td>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
+          <td>{{ idx + 1 }}</td>
+          <td>{{ content.id }}</td>
+          <td>{{ content.title }}</td>
+          <td>{{ content.writer }}</td>
+          <td>{{ content.regDate }}</td>
           <td>
             <button @click="$router.push({ name: 'board-edit' })">수정</button>
-            <button @click="deleteContent">삭제</button>
+            <button @click="deleteContent(content.id)">삭제</button>
           </td>
         </tr>
       </tbody>
