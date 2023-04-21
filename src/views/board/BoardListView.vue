@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { update } from 'lodash';
-import { type Ref, ref, computed, watch } from 'vue';
+import { type Ref, ref, computed, watch } from 'vue'
 
 type Content = {
-    id: number,
-    title: string,
-    content: string,
-    writer: string,
-    regDate: Date
+  id: number
+  title: string
+  content: string
+  writer: string
+  regDate: Date
 }
 
-const contents:Ref<Content[]> = ref([]);
+const contents: Ref<Content[]> = ref([])
 
 // const contentList = computed(() => {
 
 // })
-let length = localStorage.length;
-
+let length = localStorage.length
 
 // watch(
 //   () => localStorage,
@@ -34,28 +32,24 @@ let length = localStorage.length;
 //     }
 // )
 
-
-// for(let i = 0; i < localStorage.length ; i++){
-//   let strArr = localStorage.getItem(i.toString());
-//   if(strArr != null) {
-//     contents.value.push(JSON.parse(strArr));
-//   }
-// }
-
-
+for (let i = 0; i < localStorage.length; i++) {
+  let strArr = localStorage.getItem(i.toString())
+  if (strArr != null) {
+    contents.value.push(JSON.parse(strArr))
+  }
+}
 
 console.log(length)
 
-const deleteContent = (i:number) => {
-  console.log('delete');
-  localStorage.removeItem(i.toString());
+const deleteContent = (i: number) => {
+  console.log('delete')
+  localStorage.removeItem(i.toString())
+  // location.reload()
 }
-
 </script>
 
 <template>
-  <br>
-  <div>
+  <div class="boardList">
     <table>
       <thead>
         <tr>

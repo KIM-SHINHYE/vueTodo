@@ -30,19 +30,18 @@
 import cheerio from 'cheerio';
 import axios from 'axios';
 import { ref, watch, type Ref } from 'vue';
-import cloneDeep from 'lodash/cloneDeep';
 import {crawlData} from '@/api/crawler'
 
-let keyValTest = {
-  q: { a: 1, b: 1 },
-  w: { a: 4, b: 4 },
-  e: { a: 2, b: 2 },
-  r: { a: 3, b: 3 },
-};
+// let keyValTest = {
+//   q: { a: 1, b: 1 },
+//   w: { a: 4, b: 4 },
+//   e: { a: 2, b: 2 },
+//   r: { a: 3, b: 3 },
+// };
 
-console.log('keyValTest;;;', keyValTest);
-console.log('keys;;;', Object.keys(keyValTest));
-console.log('values;;;', Object.values(keyValTest));
+// console.log('keyValTest;;;', keyValTest);
+// console.log('keys;;;', Object.keys(keyValTest));
+// console.log('values;;;', Object.values(keyValTest));
 
 
 
@@ -50,6 +49,16 @@ console.log('values;;;', Object.values(keyValTest));
 // let uri:Ref<string> = ref('');
 let uri:Ref<string> = ref('https://www.data.go.kr/data/15001699/openapi.do#/tab_layer_detail_function');
 // let uri:Ref<string> = ref('https://www.data.go.kr/data/15081808/openapi.do');
+
+/*
+- swaggerUrl
+https://www.data.go.kr/data/15081808/openapi.do
+
+- swagerJson
+https://www.data.go.kr/data/15058273/openapi.do
+https://www.data.go.kr/data/15112088/openapi.do
+https://www.data.go.kr/data/15112476/openapi.do
+ */
 
   
 function changeUri(event:any){
@@ -109,10 +118,10 @@ const apiList:Ref<Response> = ref({
 //   const res = await crawledData();
 //   // .then((res)=> res).catch((err) => Promise.reject(new Error('URL does not exist.'))); 
 //   const $ = cheerio.load(res?.data);
-//   const scriptList = $('script');
+//   const $scriptList = $('script');
 //   let titles:string[] = [];
   
-//   scriptList.each((i, ele) => {
+//   $scriptList.each((i, ele) => {
 //     titles.push($(ele).text());
 //   })
 
@@ -210,18 +219,32 @@ const apiList:Ref<Response> = ref({
 
 const processData = async () => {
   crawlData(uri.value).then(res => {
+    // load() 메서드를 통해 HTMl을 불러오면 Cheerio 오브젝트 생성됨
     const $ = cheerio.load(res?.data);
-    const scriptList = $('script');
+
+    // 반환된 오브젝트에 이름을 붙일 땐, $를 붙여 구분
+    const $scriptList = $('script');
     let titles:string[] = [];
+
+    console.log(';;;;', $scriptList)
     
-    scriptList.each((i, ele) => {
+    $scriptList.each((i, ele) => {
       titles.push($(ele).text());
     })
 
+    console.log('titles;;;; before', titles);
+
     titles = titles.filter((str) => str.includes('swagger'));
+
+    console.log('titles;;;; after', titles);
+
 
     const swaggerUrl = titles[0].split("var swaggerUrl = '")[1].split("';")[0];
     const swaggerJson = titles[0].split('var swaggerJson = `')[1].split("`;")[0];
+
+    console.log('swaggerUrl',  swaggerUrl)
+    console.log('swaggerJson',  swaggerJson)
+
     
     if(swaggerUrl){
       console.log('swaggerUrl 존재');
@@ -249,7 +272,7 @@ const processData = async () => {
       console.log(swaggerJsonData['paths']);
 
     } else {
-      alert('X');
+      alert('swaggerUrl, swaggerJson이 존재하지 않아요🥲');
     }
   }).catch(err => {
     console.error(err);
