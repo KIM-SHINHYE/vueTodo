@@ -15,11 +15,13 @@ const dateFormat = (now: Date) => {
     '-' +
     (now.getMonth() + 1 < 9 ? '0' + (now.getMonth() + 1) : now.getMonth()) +
     '-' +
-    (now.getDate() < 9 ? '0' : now.getDate()) +
+    (now.getDate() < 9 ? '0' + now.getDate() : now.getDate()) +
     ' ' +
     (now.getHours() < 9 ? '0' + now.getHours() : now.getHours()) +
     ':' +
-    (now.getMinutes() < 9 ? '0' + now.getMinutes() : now.getMinutes)
+    (now.getMinutes() < 9 ? '0' + now.getMinutes() : now.getMinutes()) +
+    ':'+
+    (now.getSeconds() < 9 ? '0' + now.getSeconds() : now.getSeconds())
   )
 }
 
@@ -35,6 +37,7 @@ const registerBoard = (cont: Content) => {
   let i: number = 0
   let keyStrArr = Object.keys(localStorage)
   if (keyStrArr.length !== 0) {
+    // localStorage는 key:value 형태라 string으로 들어감
     // string to num
     let keyNumArr = keyStrArr.map(Number)
     cont.id = i = Math.max(...keyNumArr) + 1
@@ -60,7 +63,7 @@ const focusNextInput = (nextRef: any) => {
       <h3>제목</h3>
       <input
         ref="titleInput"
-        @keyup.enter="focusNextInput($refs.contentInput)"
+        @keypress.enter="focusNextInput($refs.contentInput)"
         type="text"
         class="input-text"
         v-model="content.title"
@@ -70,7 +73,7 @@ const focusNextInput = (nextRef: any) => {
       <h3>내용</h3>
       <input
         ref="contentInput"
-        @keyup.enter="focusNextInput($refs.writerInput)"
+        @keypress.enter="focusNextInput($refs.writerInput)"
         type="text"
         class="input-text"
         v-model="content.content"
@@ -78,9 +81,10 @@ const focusNextInput = (nextRef: any) => {
     </div>
     <div class="input-container">
       <h3>작성자</h3>
+      <!-- key속성 사용할 때 엔터를 치면 먼저 저장하고 그 다음 input창으로 옮겨야 됨 -->
       <input
         ref="writerInput"
-        @keyup.enter="
+        @keypress.enter="
           registerBoard(content);
           focusNextInput($refs.titleInput)
         "

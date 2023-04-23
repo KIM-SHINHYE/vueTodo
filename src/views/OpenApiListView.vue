@@ -1,5 +1,8 @@
 <template>
   <div class="openApi">
+    <div class="swagger">
+      <div ref="swaggerUI"></div>
+    </div>
     <br>
     <input style="width:500px; height: 40px;" type="text" @keyup.enter="changeUri" v-model="uri">
     <br>
@@ -29,8 +32,15 @@
 <script setup lang="ts">
 import cheerio from 'cheerio';
 import axios from 'axios';
-import { ref, watch, type Ref } from 'vue';
+import { ref, watch, type Ref, onMounted } from 'vue';
 import {crawlData} from '@/api/crawler'
+// import SwaggerUI from 'swagger-ui-dist';
+
+// onMounted(() => {
+//   SwaggerUI({
+//     url
+//   })
+// })
 
 // let keyValTest = {
 //   q: { a: 1, b: 1 },

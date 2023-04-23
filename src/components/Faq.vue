@@ -152,7 +152,7 @@ p{
     font-size: small;
 }
 .accordion {
-    background-color: grey;
+    background-color: white;
     color: #444;
     cursor: pointer;
     padding: 18px;
