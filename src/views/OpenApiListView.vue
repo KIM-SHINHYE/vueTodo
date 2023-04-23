@@ -4,7 +4,16 @@
       <div ref="swaggerUI"></div>
     </div>
     <br>
-    <input style="width:500px; height: 40px;" type="text" @keyup.enter="changeUri" v-model="uri">
+    <input style="width:500px; height: 40px;" type="text" @keyup.enter="changeUri(uri)" v-model="uri">
+    <br>
+    <br>
+    <ul>SAMPLE
+      <li><a href="#" @click="changeUri('https://www.data.go.kr/data/15081808/openapi.do')">https://www.data.go.kr/data/15081808/openapi.do</a></li>
+      <li><a href="#" @click="changeUri('https://www.data.go.kr/data/15058273/openapi.do')">https://www.data.go.kr/data/15058273/openapi.do</a></li>
+      <li><a href="#" @click="changeUri('https://www.data.go.kr/data/15112088/openapi.do')">https://www.data.go.kr/data/15112088/openapi.do</a></li>
+      <li><a href="#" @click="changeUri('https://www.data.go.kr/data/15112476/openapi.do')">https://www.data.go.kr/data/15112476/openapi.do</a></li>
+      <li><a href="#" @click="changeUri('https://www.data.go.kr/data/15001699/openapi.do#/tab_layer_detail_function')">https://www.data.go.kr/data/15001699/openapi.do#/tab_layer_detail_function</a></li>
+    </ul>
     <br>
     <br>
     <h1>{{ apiList.info.title? apiList.info.title + ' API': 'URI 입력'}}</h1>
@@ -72,9 +81,9 @@ https://www.data.go.kr/data/15112476/openapi.do
 
   
 function changeUri(event:any){
-  uri.value = event.target.value;
+  uri.value = event;
   processData();
-  // console.log('uri.value',uri.value);
+  // console.log('uri.value',event);
 }
 
 
