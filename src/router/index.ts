@@ -150,7 +150,7 @@ const router = createRouter({
       name: 'board',
       children: [
         {
-          path: 'detail',
+          path: 'detail/:id',
           name: 'board-detail',
           component: () => import('@/views/board/BoardListDetailView.vue'),
         },
@@ -165,7 +165,7 @@ const router = createRouter({
           component: () => import('@/views/board/BoardRegEditView.vue'),
         },
         {
-          path: 'edit',
+          path: 'edit/:id',
           name: 'board-edit',
           component: () => import('@/views/board/BoardRegEditView.vue'),
         }

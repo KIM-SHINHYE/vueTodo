@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref, type Ref } from 'vue'
-
-type Content = {
-  id: number
-  title: string
-  content: string
-  writer: string
-  regDate: string
-}
+import { useStore } from '@/stores/board'
+// 어떤 path인지에 따라서 값을 변경시켜야 하므로 route.path.includes를 통해 어떤 path가 들어왔는지 확인
+import { useRoute } from 'vue-router'
+import router from '@/router'
+const route = useRoute()
+const boardStore = useStore()
 
 const dateFormat = (now: Date) => {
   return (
@@ -20,36 +18,67 @@ const dateFormat = (now: Date) => {
     (now.getHours() < 9 ? '0' + now.getHours() : now.getHours()) +
     ':' +
     (now.getMinutes() < 9 ? '0' + now.getMinutes() : now.getMinutes()) +
-    ':'+
+    ':' +
     (now.getSeconds() < 9 ? '0' + now.getSeconds() : now.getSeconds())
   )
 }
 
+// 등록을 해도, 수정을 해도 공유해서 사용할 수 있게 하기 위해 따로 선언
 let content: Ref<Content> = ref({
   id: 0,
   title: '',
   content: '',
   writer: '',
-  regDate: dateFormat(new Date())
+  regDate: ''
 })
 
-const registerBoard = (cont: Content) => {
+// 태그에 있는 ref를 가져와서 스크립트에서 사용하는 방법
+let titleInput: HTMLInputElement | null = null
+
+// 현재는 로컬스토리지 이용하는 거라 상관없지만, api를 쏘게 될 경우는 문제가 생길 수 있으니 onMounted에서 사용하는게 좋음
+onMounted(() => {
+  if (route.path.includes('edit')) {
+    content.value = boardStore.updateContent
+  }
+})
+
+type Content = {
+  id: number
+  title: string
+  content: string
+  writer: string
+  regDate: string
+}
+
+const registerBoard = () => {
   let i: number = 0
   let keyStrArr = Object.keys(localStorage)
   if (keyStrArr.length !== 0) {
     // localStorage는 key:value 형태라 string으로 들어감
     // string to num
     let keyNumArr = keyStrArr.map(Number)
-    cont.id = i = Math.max(...keyNumArr) + 1
+    content.value.id = i = Math.max(...keyNumArr) + 1
   } else {
-    cont.id = 0
+    content.value.id = 0
   }
+  content.value.regDate = dateFormat(new Date())
 
-  localStorage.setItem(`${i}`, JSON.stringify(cont))
-  content.value.title = ''
-  content.value.content = ''
-  content.value.writer = ''
+  localStorage.setItem(`${i}`, JSON.stringify(content.value))
+  // 등록하고 이전 페이지로 돌리는 것이기 때문에, 굳이 input창 지울 필요없음
+  // content.value.title = ''
+  // content.value.content = ''
+  // content.value.writer = ''
   i++
+
+  // 등록하고 이전 페이지로 돌리는 것이기 때문에, 굳이 포커스 이동할 필요없음
+  // focusNextInput(titleInput)
+  if (route.path.includes('edit')) {
+    alert('수정되었습니다.')
+  } else {
+    alert('등록되었습니다.')
+  }
+  // router.push({name: 'board-list'});
+  router.back()
 }
 
 const focusNextInput = (nextRef: any) => {
@@ -84,10 +113,7 @@ const focusNextInput = (nextRef: any) => {
       <!-- key속성 사용할 때 엔터를 치면 먼저 저장하고 그 다음 input창으로 옮겨야 됨 -->
       <input
         ref="writerInput"
-        @keypress.enter="
-          registerBoard(content);
-          focusNextInput($refs.titleInput)
-        "
+        @keypress.enter="registerBoard()"
         type="text"
         class="input-text"
         v-model="content.writer"
@@ -95,13 +121,8 @@ const focusNextInput = (nextRef: any) => {
     </div>
     <div class="btn">
       <button @click="$router.push({ name: 'board-list' })">이전</button>
-      <button
-        @click="
-          registerBoard(content);
-          focusNextInput($refs.titleInput)
-        "
-      >
-        등록
+      <button @click="registerBoard()">
+        {{ $route.path.includes('register') ? '등록' : '수정' }}
       </button>
     </div>
   </div>
