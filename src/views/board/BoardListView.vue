@@ -14,14 +14,13 @@ type Content = {
   regDate: string
 }
 
-// console.log(length)
 // pinia처럼 store에서 바로 가져다가 목록에 뿌려줘야 되는데, for문으로 돌리는 과정이 있다보니까 그렇게 안해줬음. 그래서 computed를 통해 로컬스토리지에 값이 들어가거나 없어진 것에 대해 데이터 감시해줘야 함
 // computed 변수에 접근하려면 .value를 통해 접근해야 함 => reactive system에서 반환되는 reactive object이기 때문
 const contents: Ref<Content[]> = ref([])
 const selectedContent: Ref<Content[]> = ref([])
 
 // watchEffect 함수를 사용해 localStorage가 변경될 때마다 contents변수 업뎃
-// watchEffect는 함수 내부에서 의존하는 reactive한 데이터를 자동으로 추적 => 즉, contents배열이나 selectedContent을 사용하는 코드가 있으면 자동 추적해 감지
+// watchEffect는 함수 내부에서 의존하는 reactive한 데이터를 자동으로 추적 => 즉, 현재 reactive한 변수는 contents배열, selectedContent배열이 선언되어 있는데 해당 배열을 사용하는 코드가 있으면 자동 추적해 감지
 watchEffect(() => {
   console.log('watchEffect안')
   let contentList: Content[] = []
