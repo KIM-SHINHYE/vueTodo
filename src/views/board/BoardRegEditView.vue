@@ -34,11 +34,16 @@ let content: Ref<Content> = ref({
 
 // 태그에 있는 ref를 가져와서 스크립트에서 사용하는 방법
 let titleInput: HTMLInputElement | null = null
+let key = Array.isArray(route.params.id)? route.params.id[0] : route.params.id;
 
 // 현재는 로컬스토리지 이용하는 거라 상관없지만, api를 쏘게 될 경우는 문제가 생길 수 있으니 onMounted에서 사용하는게 좋음
 onMounted(() => {
   if (route.path.includes('edit')) {
-    content.value = boardStore.updateContent
+
+    let oldContent = localStorage.getItem(key)
+    if(oldContent){
+      content.value = JSON.parse(oldContent)
+    }
   }
 })
 
@@ -51,34 +56,40 @@ type Content = {
 }
 
 const registerBoard = () => {
-  let i: number = 0
-  let keyStrArr = Object.keys(localStorage)
-  if (keyStrArr.length !== 0) {
-    // localStorage는 key:value 형태라 string으로 들어감
-    // string to num
-    let keyNumArr = keyStrArr.map(Number)
-    content.value.id = i = Math.max(...keyNumArr) + 1
-  } else {
-    content.value.id = 0
-  }
-  content.value.regDate = dateFormat(new Date())
-
-  localStorage.setItem(`${i}`, JSON.stringify(content.value))
-  // 등록하고 이전 페이지로 돌리는 것이기 때문에, 굳이 input창 지울 필요없음
-  // content.value.title = ''
-  // content.value.content = ''
-  // content.value.writer = ''
-  i++
-
-  // 등록하고 이전 페이지로 돌리는 것이기 때문에, 굳이 포커스 이동할 필요없음
-  // focusNextInput(titleInput)
-  if (route.path.includes('edit')) {
+  if(route.path.includes('edit')){
+    localStorage.setItem(key, JSON.stringify(content.value));
+    console.log(';;;;;;;', localStorage.getItem(key))
     alert('수정되었습니다.')
-  } else {
+  }
+  else {
+    let i: number = 0
+    let keyStrArr = Object.keys(localStorage)
+    if (keyStrArr.length !== 0) {
+      // localStorage는 key:value 형태라 string으로 들어감
+      // string to num
+      let keyNumArr = keyStrArr.map(Number)
+      content.value.id = i = Math.max(...keyNumArr) + 1
+    } else {
+      content.value.id = 0
+    }
+    content.value.regDate = dateFormat(new Date())
+  
+    localStorage.setItem(`${i}`, JSON.stringify(content.value))
+    // 등록하고 이전 페이지로 돌리는 것이기 때문에, 굳이 input창 지울 필요없음
+    // content.value.title = ''
+    // content.value.content = ''
+    // content.value.writer = ''
+    i++
+  
+    // 등록하고 이전 페이지로 돌리는 것이기 때문에, 굳이 포커스 이동할 필요없음
+    // focusNextInput(titleInput)
+
     alert('등록되었습니다.')
   }
-  // router.push({name: 'board-list'});
-  router.back()
+
+  // router.back()은 내가 router를 통해 몇 번 클릭하면 그만큼 router를 back하게 되는 것
+  router.push({name: 'board-list'});
+  // router.back()
 }
 
 const focusNextInput = (nextRef: any) => {

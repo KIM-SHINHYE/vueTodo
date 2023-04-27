@@ -44,9 +44,6 @@ const deleteContent = (con: Content) => {
 }
 
 const deleteSelectedContents = () => {
-  console.log('aa')
-  console.log(selectedContent.value.length)
-
   // 해당 배열이 없는 값으로 목록을 업데이트하려면 삭제될 배열을 만들어줘야 함
   if (selectedContent.value.length === 0) {
     alert('nothing to delete')
@@ -64,9 +61,7 @@ const deleteSelectedContents = () => {
 }
 
 const updateContent = (content: Content) => {
-  console.log('button clicked ;;;;;', content)
-  boardStore.propContent(content)
-
+  // 로컬스토리지에서 key(content.id) 값 찾아주고, 업데이트 
   // parameter를 넘겨줄 땐, 두 번째 인자로 넘겨주기
   router.push({ name: 'board-edit', params: { id: content.id } })
 }
