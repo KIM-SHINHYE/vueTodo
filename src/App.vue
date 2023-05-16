@@ -29,6 +29,7 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/quasar">quasar</RouterLink>
         <RouterLink to="/newtodo">New-Todo</RouterLink>
         <RouterLink to="/board/list">board</RouterLink>
+        <RouterLink to="/authBtn">authBtn</RouterLink>
 
 
 

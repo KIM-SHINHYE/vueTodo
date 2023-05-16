@@ -170,7 +170,12 @@ const router = createRouter({
           component: () => import('@/views/board/BoardRegEditView.vue'),
         }
       ]
-    }
+    },
+    {
+      path: '/authBtn',
+      name: 'authBtn',
+      component: () => import('@/views/AuthBtnView.vue')
+    },
   ]
 })
 
